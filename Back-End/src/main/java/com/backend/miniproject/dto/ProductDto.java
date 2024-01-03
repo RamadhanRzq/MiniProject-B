@@ -1,6 +1,5 @@
 package com.backend.miniproject.dto;
 
-import com.backend.miniproject.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class ProductDto {
     private Long Id;
     private String Name;
     private String Description;
-    private CategoryDto Category;
+    private String Category;
     private int Price;
     private int Stock;
 }

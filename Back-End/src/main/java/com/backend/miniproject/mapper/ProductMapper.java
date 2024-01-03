@@ -9,7 +9,7 @@ public class ProductMapper {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
-                CategoryMapper.mapToCategoryDto(product.getCategory()),
+                product.getCategory(),
                 product.getPrice(),
                 product.getStock()
         );
@@ -20,7 +20,7 @@ public class ProductMapper {
                 productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
-                CategoryMapper.mapToCategory(productDto.getCategory()),
+                productDto.getCategory(),
                 productDto.getPrice(),
                 productDto.getStock()
         );

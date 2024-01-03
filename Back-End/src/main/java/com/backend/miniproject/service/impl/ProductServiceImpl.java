@@ -1,10 +1,8 @@
 package com.backend.miniproject.service.impl;
 
 import com.backend.miniproject.dto.ProductDto;
-import com.backend.miniproject.entity.Category;
 import com.backend.miniproject.entity.Product;
 import com.backend.miniproject.exception.ResourceNotFoundException;
-import com.backend.miniproject.mapper.CategoryMapper;
 import com.backend.miniproject.mapper.ProductMapper;
 import com.backend.miniproject.repository.ProductRepository;
 import com.backend.miniproject.service.ProductService;
@@ -47,11 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
             existingProduct.setName(updatedProductDto.getName());
             existingProduct.setDescription(updatedProductDto.getDescription());
-
-            // Perhatikan perubahan di sini: konversi CategoryDto ke Category
-            Category category = CategoryMapper.mapToCategory(updatedProductDto.getCategory());
-            existingProduct.setCategory(category);
-
+            existingProduct.setCategory(updatedProductDto.getCategory());
             existingProduct.setPrice(updatedProductDto.getPrice());
             existingProduct.setStock(updatedProductDto.getStock());
 
