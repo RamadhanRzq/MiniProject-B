@@ -1,8 +1,10 @@
 package com.backend.miniproject.service.impl;
 
 import com.backend.miniproject.dto.ProductDto;
+import com.backend.miniproject.entity.Category;
 import com.backend.miniproject.entity.Product;
 import com.backend.miniproject.exception.ResourceNotFoundException;
+import com.backend.miniproject.mapper.CategoryMapper;
 import com.backend.miniproject.mapper.ProductMapper;
 import com.backend.miniproject.repository.ProductRepository;
 import com.backend.miniproject.service.ProductService;
@@ -16,8 +18,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
-    
-    
+
     @Override
     public ProductDto createProduct(ProductDto productDto){
         Product product = ProductMapper.mapToProduct(productDto);
@@ -46,15 +47,17 @@ public class ProductServiceImpl implements ProductService {
 
             existingProduct.setName(updatedProductDto.getName());
             existingProduct.setDescription(updatedProductDto.getDescription());
-            existingProduct.setCategory(updatedProductDto.getCategory());
+
+            // Perhatikan perubahan di sini: konversi CategoryDto ke Category
+            Category category = CategoryMapper.mapToCategory(updatedProductDto.getCategory());
+            existingProduct.setCategory(category);
+
             existingProduct.setPrice(updatedProductDto.getPrice());
             existingProduct.setStock(updatedProductDto.getStock());
-
 
             Product updatedProduct = productRepository.save(existingProduct);
             return ProductMapper.mapToProductDto(updatedProduct);
         } else {
-
             throw new RuntimeException("Product not found with id: " + productId);
         }
     }

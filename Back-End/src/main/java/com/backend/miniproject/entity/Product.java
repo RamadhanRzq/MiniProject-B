@@ -24,8 +24,9 @@ public class Product {
     @Column(name = "Description")
     private String Description;
 
-    @Column(name = "Category")
-    private String Category;
+    @ManyToOne
+    @JoinColumn(name = "CategoryID")
+    private Category Category;
 
     @Column(name = "Price")
     private int Price;
