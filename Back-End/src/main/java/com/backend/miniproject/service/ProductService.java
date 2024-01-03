@@ -10,4 +10,5 @@ public interface ProductService {
     List<ProductDto> getAllProducts();
     ProductDto updateProduct(Long productId, ProductDto updatedProductDto);
     void deleteProduct(Long productId);
+    boolean productExists(Long productId);
 }
