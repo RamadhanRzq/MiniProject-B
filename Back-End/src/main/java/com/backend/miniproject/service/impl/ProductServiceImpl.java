@@ -18,4 +18,9 @@ public class ProductServiceImpl implements ProductService {
         Product savedProduct = productRepository.save(product);
         return ProductMapper.mapToProductDto(savedProduct);
     }
+
+    @Override
+    public ProductDto getProductById(Long productId) {
+        return null;
+    }
 }
