@@ -1,4 +1,4 @@
-package com.backend.miniproject.entity;
+package com.backend.miniproject.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

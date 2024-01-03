@@ -1,7 +1,7 @@
 package com.backend.miniproject.service.impl;
 
 import com.backend.miniproject.dto.ProductDto;
-import com.backend.miniproject.entity.Product;
+import com.backend.miniproject.model.Product;
 import com.backend.miniproject.exception.ResourceNotFoundException;
 import com.backend.miniproject.mapper.ProductMapper;
 import com.backend.miniproject.repository.ProductRepository;
