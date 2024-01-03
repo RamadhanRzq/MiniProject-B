@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+    
+    
     @Override
     public ProductDto createProduct(ProductDto productDto){
         Product product = ProductMapper.mapToProduct(productDto);
@@ -36,4 +38,29 @@ public class ProductServiceImpl implements ProductService {
         return products.stream().map(ProductMapper::mapToProductDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ProductDto updateProduct(Long productId, ProductDto updatedProductDto) {
+        if (productRepository.existsById(productId)) {
+            Product existingProduct = productRepository.findById(productId).get();
+
+            existingProduct.setName(updatedProductDto.getName());
+            existingProduct.setDescription(updatedProductDto.getDescription());
+            existingProduct.setCategory(updatedProductDto.getCategory());
+            existingProduct.setPrice(updatedProductDto.getPrice());
+            existingProduct.setStock(updatedProductDto.getStock());
+
+
+            Product updatedProduct = productRepository.save(existingProduct);
+            return ProductMapper.mapToProductDto(updatedProduct);
+        } else {
+
+            throw new RuntimeException("Product not found with id: " + productId);
+        }
+    }
+
+	@Override
+	public void deleteProduct(Long productId) {
+		productRepository.deleteById(productId);		
+	}
 }
