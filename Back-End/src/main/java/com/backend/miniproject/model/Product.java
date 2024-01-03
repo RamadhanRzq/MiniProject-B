@@ -28,8 +28,8 @@ public class Product {
     private String category;
 
     @Column(name = "price")
-    private int price;
+    private Long price;
 
     @Column(name = "stock")
-    private int stock;
+    private Long stock;
 }
