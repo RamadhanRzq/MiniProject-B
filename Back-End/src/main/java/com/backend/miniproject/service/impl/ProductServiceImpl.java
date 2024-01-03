@@ -60,4 +60,35 @@ public class ProductServiceImpl implements ProductService {
 	public void deleteProduct(Long productId) {
 		productRepository.deleteById(productId);		
 	}
+
+    @Override
+    public List<ProductDto> findProductsByName(String name) {
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+        return products.stream().map(ProductMapper::mapToProductDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getAllProductsOrderedByNameAsc() {
+        List<Product> products = productRepository.findAllByOrderByNameAsc();
+        return products.stream().map(ProductMapper::mapToProductDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getAllProductsOrderedByPriceAsc() {
+        List<Product> products = productRepository.findAllByOrderByPriceAsc();
+        return products.stream().map(ProductMapper::mapToProductDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getAllProductsOrderedByNameDesc() {
+        List<Product> products = productRepository.findAllByOrderByNameDesc();
+        return products.stream().map(ProductMapper::mapToProductDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getAllProductsOrderedByPriceDesc() {
+        List<Product> products = productRepository.findAllByOrderByPriceDesc();
+        return products.stream().map(ProductMapper::mapToProductDto).collect(Collectors.toList());
+    }
 }

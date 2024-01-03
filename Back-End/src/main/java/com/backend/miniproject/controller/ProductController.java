@@ -5,6 +5,7 @@ import com.backend.miniproject.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +49,40 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long productId){
         productService.deleteProduct(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // SEARCH PRODUCTS BY NAME
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> searchProductsByName(@RequestParam String name) {
+        List<ProductDto> products = productService.findProductsByName(name);
+        return ResponseEntity.ok(products);
+    }
+
+    // GET ALL PRODUCTS ORDERED BY NAME
+    @GetMapping("/orderByNameAsc")
+    public ResponseEntity<List<ProductDto>> getAllProductsOrderedByName(){
+        List<ProductDto> products = productService.getAllProductsOrderedByNameAsc();
+        return ResponseEntity.ok(products);
+    }
+
+    // GET ALL PRODUCTS ORDERED BY PRICE
+    @GetMapping("/orderByPriceAsc")
+    public ResponseEntity<List<ProductDto>> getAllProductsOrderedByPrice(){
+        List<ProductDto> products = productService.getAllProductsOrderedByPriceAsc();
+        return ResponseEntity.ok(products);
+    }
+
+    // GET ALL PRODUCTS ORDERED BY NAME DESCENDING
+    @GetMapping("/orderByNameDesc")
+    public ResponseEntity<List<ProductDto>> getAllProductsOrderedByNameDesc(){
+        List<ProductDto> products = productService.getAllProductsOrderedByNameDesc();
+        return ResponseEntity.ok(products);
+    }
+
+    // GET ALL PRODUCTS ORDERED BY PRICE DESCENDING
+    @GetMapping("/orderByPriceDesc")
+    public ResponseEntity<List<ProductDto>> getAllProductsOrderedByPriceDesc(){
+        List<ProductDto> products = productService.getAllProductsOrderedByPriceDesc();
+        return ResponseEntity.ok(products);
     }
 }
