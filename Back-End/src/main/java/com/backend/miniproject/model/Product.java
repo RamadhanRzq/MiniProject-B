@@ -24,8 +24,11 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "category")
-    private String category;
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "category_id")
+    private Long category;
 
     @Column(name = "price")
     private Long price;
