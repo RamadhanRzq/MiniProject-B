@@ -5,10 +5,12 @@ import com.backend.miniproject.entity.Product;
 import com.backend.miniproject.mapper.ProductMapper;
 import com.backend.miniproject.repository.ProductRepository;
 import com.backend.miniproject.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    @Autowired
     private ProductRepository productRepository;
     @Override
     public ProductDto createProduct(ProductDto productDto){
