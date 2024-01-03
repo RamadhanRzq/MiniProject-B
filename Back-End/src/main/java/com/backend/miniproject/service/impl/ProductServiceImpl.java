@@ -9,6 +9,9 @@ import com.backend.miniproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -25,5 +28,12 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product is not exist with given id :" + productId));
         return ProductMapper.mapToProductDto(product);
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream().map(ProductMapper::mapToProductDto)
+                .collect(Collectors.toList());
     }
 }
