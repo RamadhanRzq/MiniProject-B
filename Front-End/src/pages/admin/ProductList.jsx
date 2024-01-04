@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -6,12 +7,17 @@ import useSWR from "swr";
 import { toRupiah } from "../../utils/formatter";
 
 function ProductList() {
+  const fetchData = async (url) => {
+    const data = await axios
+      .get(url, { headers: { "Cache-Control": "no-cache" } })
+      .then((res) => res.data.data);
+    return data;
+  };
+
   const { data, isLoading, error, mutate } = useSWR(
     "http://localhost:8080/api/products",
-    (url) => axios.get(url).then((response) => response.data)
+    () => fetchData(`http://localhost:8080/api/products`)
   );
-
-  console.log(data);
 
   const handleDelete = (id) => {
     axios
@@ -59,7 +65,7 @@ function ProductList() {
                   </thead>
                   <tbody>
                     {data &&
-                      data?.map((product) => (
+                      data.map((product) => (
                         <tr
                           key={product.id}
                           className="border-b border-gray-200"
