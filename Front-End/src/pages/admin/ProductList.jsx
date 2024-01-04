@@ -4,28 +4,19 @@ import axios from "axios";
 import { BeatLoader } from "react-spinners";
 import useSWR from "swr";
 import { toRupiah } from "../../utils/formatter";
-import { useSelector } from "react-redux";
 
 function ProductList() {
-  const userRole = useSelector((state) => state.auth.user?.role);
-
-  if (userRole !== "admin") {
-    return (
-      <div className="flex items-center justify-center">
-        Unauthorized access
-      </div>
-    );
-  }
   const { data, isLoading, error, mutate } = useSWR(
-    "http://localhost:3000/addproduct",
+    "http://localhost:8080/api/products",
     (url) => axios.get(url).then((response) => response.data)
   );
 
+  console.log(data);
+
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:3000/addproduct/${id}`)
+      .delete(`http://localhost:8080/api/products/${id}`)
       .then((res) => {
-        // Refresh data after successful deletion
         mutate();
       })
       .catch((error) => {
@@ -56,23 +47,23 @@ function ProductList() {
                 <table className="min-w-full table-auto">
                   <thead>
                     <tr>
-                      {/* <th className="px-4 py-2">ID</th> */}
                       <th className="px-4 py-2">Product Name</th>
                       <th className="px-4 py-2">Product Image</th>
                       <th className="px-4 py-2">Product Price</th>
-                      <th className="px-4 py-2">Product Release Date</th>
+                      <th className="px-4 py-2">Product Description</th>
+                      <th className="px-4 py-2">Product Stock</th>
+                      <th className="px-4 py-2">Product Category</th>
                       <th className="px-4 py-2">Update</th>
                       <th className="px-4 py-2">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data &&
-                      data.map((product) => (
+                      data?.map((product) => (
                         <tr
                           key={product.id}
                           className="border-b border-gray-200"
                         >
-                          {/* <td className="py-2">{product.id}</td> */}
                           <td className="py-2">{product.name}</td>
                           <td className="py-2">
                             <div className="flex justify-center items-center">
@@ -84,7 +75,9 @@ function ProductList() {
                             </div>
                           </td>
                           <td className="py-2">{toRupiah(product.price)}</td>
-                          <td className="py-2">{product.releaseDate}</td>
+                          <td className="py-2">{product.description}</td>
+                          <td className="py-2">{product.stock}</td>
+                          <td className="py-2">{product.category}</td>
                           <td className="py-2">
                             <Link
                               className="rounded-lg bg-lime-600 p-2 text-white self-center hover:bg-lime-700"
