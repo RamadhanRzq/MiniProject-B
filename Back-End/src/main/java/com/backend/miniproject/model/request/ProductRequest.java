@@ -2,13 +2,16 @@ package com.backend.miniproject.model.request;
 
 import lombok.*;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
     private String name;
+    private String image;
     private String description;
-    private String category;
     private Long price;
+    private Long stock;
+    private Long categoryId;
+
 }

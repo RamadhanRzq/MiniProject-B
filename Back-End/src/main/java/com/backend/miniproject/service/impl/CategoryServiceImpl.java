@@ -1,13 +1,10 @@
 package com.backend.miniproject.service.impl;
 
-import com.backend.miniproject.dto.CategoryDto;
-import com.backend.miniproject.dto.ProductDto;
-import com.backend.miniproject.exception.ResourceNotFoundException;
-import com.backend.miniproject.mapper.CategoryMapper;
-import com.backend.miniproject.mapper.ProductMapper;
 import com.backend.miniproject.model.Category;
-import com.backend.miniproject.model.Product;
+import com.backend.miniproject.model.request.CategoryRequest;
+import com.backend.miniproject.model.response.CategoryResponse;
 import com.backend.miniproject.repository.CategoryRepository;
+import com.backend.miniproject.repository.ProductRepository;
 import com.backend.miniproject.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,39 +14,42 @@ import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
     @Autowired
-    CategoryRepository categoryRepository;
-    @Override
-    public CategoryDto createCategory(CategoryDto categoryDto) {
-        Category category = CategoryMapper.mapToCategory(categoryDto);
-        Category savedCategory = categoryRepository.save(category);
-        return CategoryMapper.mapToCategoryDto(savedCategory);
-    }
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
-    public List<CategoryDto> getAllCategories() {
+    public List<CategoryResponse> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
-        return categories.stream().map(CategoryMapper::mapToCategoryDto).collect(Collectors.toList());
+        return categories.stream().map(this::mapCategoryToCategoryResponse).collect(Collectors.toList());
     }
 
     @Override
-    public CategoryDto getCategoryById(Long categoryId) {
+    public CategoryResponse createCategory(CategoryRequest categoryRequest) {
+        Category category = new Category();
+        category.setName(categoryRequest.getName());
+        Category savedCategory = categoryRepository.save(category);
+        return mapCategoryToCategoryResponse(savedCategory);
+    }
+
+    @Override
+    public CategoryResponse getCategoryById(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product is not found with given id :" + categoryId));
-        return CategoryMapper.mapToCategoryDto(category);
+                .orElseThrow(() -> new RuntimeException("Category not found with ID: " + categoryId));
+        return mapCategoryToCategoryResponse(category);
     }
 
     @Override
-    public CategoryDto updateCategory(Long categoryId, CategoryDto updatedCategoryDto) {
-        if (categoryRepository.existsById(categoryId)) {
-            Category existingCategory = categoryRepository.findById(categoryId).get();
-            existingCategory.setName(updatedCategoryDto.getName());
+    public CategoryResponse updateCategory(Long categoryId, CategoryRequest updatedCategoryRequest) {
+        Category existingCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found with ID: " + categoryId));
 
-            Category updatedCategory = categoryRepository.save(existingCategory);
-            return CategoryMapper.mapToCategoryDto(updatedCategory);
-        } else {
-            throw new RuntimeException("Product not found with id: " + categoryId);
-        }
+        existingCategory.setName(updatedCategoryRequest.getName());
+        Category updatedCategory = categoryRepository.save(existingCategory);
+        return mapCategoryToCategoryResponse(updatedCategory);
     }
 
     @Override
@@ -60,5 +60,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public boolean categoryExists(Long categoryId) {
         return categoryRepository.existsById(categoryId);
+    }
+
+    public CategoryResponse mapCategoryToCategoryResponse(Category category) {
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setId(category.getId());
+        categoryResponse.setName(category.getName());
+        return categoryResponse;
     }
 }

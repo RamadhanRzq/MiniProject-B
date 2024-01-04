@@ -1,35 +1,27 @@
 package com.backend.miniproject.controller;
 
-import com.backend.miniproject.dto.CategoryDto;
-import com.backend.miniproject.exception.ResourceNotFoundException;
 import com.backend.miniproject.model.ApiResponse;
+import com.backend.miniproject.model.Category;
+import com.backend.miniproject.model.request.CategoryRequest;
+import com.backend.miniproject.model.response.CategoryResponse;
 import com.backend.miniproject.service.CategoryService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
+
+    @Autowired
     private CategoryService categoryService;
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<Object>> createCategory(@RequestBody CategoryDto categoryDto){
-        CategoryDto savedCategory= categoryService.createCategory(categoryDto);
-        ApiResponse<Object> apiResponse = ApiResponse.builder()
-                .status(HttpStatus.CREATED.value())
-                .message("Success Create Category")
-                .data(savedCategory)
-                .build();
-        return ResponseEntity.ok(apiResponse);
-    }
     @GetMapping
     public ResponseEntity<ApiResponse<Object>> getAllCategories() {
-        List<CategoryDto> categories = categoryService.getAllCategories();
+        List<CategoryResponse> categories = categoryService.getAllCategories();
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Categories retrieved successfully")
@@ -38,17 +30,29 @@ public class CategoryController {
 
         return ResponseEntity.ok(apiResponse);
     }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Object>> createCategory(@RequestBody CategoryRequest categoryRequest) {
+        CategoryResponse savedCategory = categoryService.createCategory(categoryRequest);
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("Success Create Category")
+                .data(savedCategory)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<ApiResponse<Object>> getCategoryById(@PathVariable("id") Long categoryId) {
         try {
-            CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
+            CategoryResponse categoryResponse = categoryService.getCategoryById(categoryId);
             ApiResponse<Object> apiResponse = ApiResponse.builder()
                     .status(HttpStatus.OK.value())
                     .message("Success Get Category By Id")
-                    .data(categoryDto)
+                    .data(categoryResponse)
                     .build();
             return ResponseEntity.ok(apiResponse);
-        } catch (ResourceNotFoundException ex) {
+        } catch (RuntimeException ex) {
             ApiResponse<Object> errorResponse = ApiResponse.builder()
                     .status(HttpStatus.NOT_FOUND.value())
                     .message("Category not found")
@@ -57,17 +61,29 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
     }
-    @PutMapping("{id}")
-    public ResponseEntity<ApiResponse<Object>> updateCategory(@PathVariable("id") Long categoryId, @RequestBody CategoryDto updatedCategoryDto){
-        CategoryDto updatedCategory = categoryService.updateCategory(categoryId, updatedCategoryDto);
-        ApiResponse<Object> apiResponse = ApiResponse.builder()
-                .status(HttpStatus.OK.value())
-                .message("Category update successfully")
-                .data(updatedCategory)
-                .build();
 
-        return ResponseEntity.ok(apiResponse);
+    @PatchMapping("{id}")
+    public ResponseEntity<ApiResponse<Object>> updateCategory(@PathVariable("id") Long categoryId,
+                                                              @RequestBody CategoryRequest updatedCategoryRequest) {
+        try {
+            CategoryResponse updatedCategory = categoryService.updateCategory(categoryId, updatedCategoryRequest);
+            ApiResponse<Object> apiResponse = ApiResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .message("Category updated successfully")
+                    .data(updatedCategory)
+                    .build();
+
+            return ResponseEntity.ok(apiResponse);
+        } catch (RuntimeException ex) {
+            ApiResponse<Object> errorResponse = ApiResponse.builder()
+                    .status(HttpStatus.NOT_FOUND.value())
+                    .message(ex.getMessage())
+                    .build();
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable("id") Long categoryId) {
         if (categoryService.categoryExists(categoryId)) {
