@@ -24,7 +24,7 @@ public class ProductController {
         ProductDto savedProduct = productService.createProduct(productDto);
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .status(HttpStatus.OK.value())
-                .message("Success")
+                .message("Success Create Data")
                 .data(savedProduct)
                 .build();
         return ResponseEntity.ok(apiResponse);
