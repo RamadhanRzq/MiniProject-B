@@ -1,7 +1,6 @@
 package com.backend.miniproject.service;
 
 import com.backend.miniproject.dto.ProductDto;
-import com.backend.miniproject.entity.Product;
 
 import java.util.List;
 
@@ -21,4 +20,5 @@ public interface ProductService {
     List<ProductDto> getAllProductsOrderedByNameDesc();
 
     List<ProductDto> getAllProductsOrderedByPriceDesc();
+    boolean productExists(Long productId);
 }

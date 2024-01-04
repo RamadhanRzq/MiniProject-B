@@ -1,20 +1,18 @@
-package com.backend.miniproject.dto;
+package com.backend.miniproject.model.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class ProductResponse {
     private Long id;
     private String name;
     private String description;
-    private String image;
     private String category;
     private Long price;
-    private Long stock;
 }

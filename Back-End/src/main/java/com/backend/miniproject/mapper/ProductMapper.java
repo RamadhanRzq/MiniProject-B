@@ -1,7 +1,7 @@
 package com.backend.miniproject.mapper;
 
 import com.backend.miniproject.dto.ProductDto;
-import com.backend.miniproject.entity.Product;
+import com.backend.miniproject.model.Product;
 
 public class ProductMapper {
     public static ProductDto mapToProductDto(Product product){
@@ -9,6 +9,7 @@ public class ProductMapper {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
+                product.getImage(),
                 product.getCategory(),
                 product.getPrice(),
                 product.getStock()
@@ -20,6 +21,7 @@ public class ProductMapper {
                 productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
+                productDto.getImage(),
                 productDto.getCategory(),
                 productDto.getPrice(),
                 productDto.getStock()
