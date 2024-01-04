@@ -48,7 +48,7 @@ function Home() {
     isLoading,
     error,
     mutate: mutateProducts,
-  } = useSWR("http://localhost:8080/api/products", getProducts, {
+  } = useSWR("http://localhost:3000/addproduct", getProducts, {
     onSuccess: (data) => {
       const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
       setOriginalProducts(sortedData);
