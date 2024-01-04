@@ -1,22 +1,47 @@
-import React, { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 function Update() {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const fetchData = async (url) => {
+    const data = await axios
+      .get(url, { headers: { "Cache-Control": "no-cache" } })
+      .then((res) => res.data.data);
+    return data;
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/category")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setCategories(data.data);
+        } else {
+          console.error("Failed to fetch categories:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
   const schema = yup.object().shape({
     name: yup.string().required("Product Name is Required"),
     image: yup.string().required("Product Image is Required"),
     price: yup.string().required("Product Price is Required"),
-    releaseDate: yup
-      .string()
-      .required("Product Release Date is Required")
-      .matches(
-        /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-        "Invalid Date Format (YYYY-MM-DD)"
-      ),
+    description: yup.string().required("Product Description is Required"),
+    stock: yup.string().required("Product Stock is Required"),
+    categoryId: yup.string().required("Product Category ID is Required"),
   });
 
   const { id } = useParams();
@@ -33,7 +58,12 @@ function Update() {
 
   const onSubmitForm = async (data) => {
     try {
-      await axios.put(`http://localhost:3000/addproduct/${id}`, data);
+      await axios.patch(`http://localhost:8080/api/products/${id}`, data, {
+        headers: {
+          "Cache-Control": "no-cache",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
       navigate("/list");
     } catch (error) {
       console.error(error);
@@ -44,13 +74,21 @@ function Update() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/addproduct/${id}`
+          `http://localhost:8080/api/products/${id}`,
+          {
+            headers: {
+              "Cache-Control": "no-cache",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
         );
-        const productData = response.data;
+        const productData = response.data.data;
         setValue("name", productData.name);
         setValue("image", productData.image);
         setValue("price", productData.price);
-        setValue("releaseDate", productData.releaseDate);
+        setValue("description", productData.description);
+        setValue("stock", productData.stock);
+        setValue("categoryId", productData.categoryId);
       } catch (error) {
         console.error(error);
       }
@@ -104,16 +142,56 @@ function Update() {
             </div>
 
             <div>
-              <label htmlFor="releaseDate">Product Release Date</label>
+              <label htmlFor="description">Product Description</label>
               <input
-                placeholder="Product Release Date"
+                placeholder="Product Description"
                 className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("releaseDate")}
-                id="releaseDate"
+                {...register("description")}
+                id="description"
               />
               <p className="error text-red-600">
-                {errors.releaseDate?.message}
+                {errors.description?.message}
               </p>
+            </div>
+
+            <div>
+              <label htmlFor="stock">Product Stock</label>
+              <input
+                placeholder="Product Stock"
+                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
+                {...register("stock")}
+                id="stock"
+              />
+              <p className="error text-red-600">{errors.stock?.message}</p>
+            </div>
+
+            <div>
+              <label htmlFor="categoryId">Select Category:</label>
+              <select
+                id="categoryId"
+                value={selectedCategory}
+                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
+                {...register("categoryId")}
+                onChange={handleCategoryChange}
+              >
+                <option value="">Select Categories Here</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+              {selectedCategory && (
+                <p>
+                  Selected Category:{" "}
+                  {
+                    categories.find(
+                      (category) =>
+                        category.id === parseInt(selectedCategory, 10)
+                    ).name
+                  }
+                </p>
+              )}
             </div>
 
             <button
