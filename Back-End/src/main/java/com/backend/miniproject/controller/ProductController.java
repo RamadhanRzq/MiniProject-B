@@ -106,14 +106,14 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    // GET ALL PRODUCTS ORDERED BY NAME
+    // GET ALL PRODUCTS ORDERED BY NAME ASCENDING
     @GetMapping("/orderByNameAsc")
     public ResponseEntity<List<ProductDto>> getAllProductsOrderedByName(){
         List<ProductDto> products = productService.getAllProductsOrderedByNameAsc();
         return ResponseEntity.ok(products);
     }
 
-    // GET ALL PRODUCTS ORDERED BY PRICE
+    // GET ALL PRODUCTS ORDERED BY PRICE ASCENDING
     @GetMapping("/orderByPriceAsc")
     public ResponseEntity<List<ProductDto>> getAllProductsOrderedByPrice(){
         List<ProductDto> products = productService.getAllProductsOrderedByPriceAsc();

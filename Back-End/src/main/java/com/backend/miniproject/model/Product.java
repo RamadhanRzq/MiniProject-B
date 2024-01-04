@@ -22,8 +22,7 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "image")
