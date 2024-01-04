@@ -1,24 +1,24 @@
 package com.backend.miniproject.service;
 
-import com.backend.miniproject.dto.ProductDto;
+import com.backend.miniproject.model.request.ProductRequest;
+import com.backend.miniproject.model.response.ProductResponse;
 
 import java.util.List;
 
 public interface ProductService {
-    ProductDto createProduct(ProductDto productDto);
-    ProductDto getProductById(Long productId);
-    List<ProductDto> getAllProducts();
-    ProductDto updateProduct(Long productId, ProductDto updatedProductDto);
+    List<ProductResponse> getAllProducts();
+    ProductResponse createProduct(ProductRequest productRequest);
+    ProductResponse getProductById(Long productId);
+    ProductResponse updateProduct(Long productId,ProductRequest updatedProductRequest);
     void deleteProduct(Long productId);
-
-    List<ProductDto> findProductsByName(String name);
-
-    List<ProductDto> getAllProductsOrderedByNameAsc();
-
-    List<ProductDto> getAllProductsOrderedByPriceAsc();
-
-    List<ProductDto> getAllProductsOrderedByNameDesc();
-
-    List<ProductDto> getAllProductsOrderedByPriceDesc();
     boolean productExists(Long productId);
+    List<ProductResponse> findProductsByName(String name);
+
+    List<ProductResponse> getAllProductsOrderedByNameAsc();
+
+    List<ProductResponse> getAllProductsOrderedByPriceAsc();
+
+    List<ProductResponse> getAllProductsOrderedByNameDesc();
+
+    List<ProductResponse> getAllProductsOrderedByPriceDesc();
 }
