@@ -1,5 +1,4 @@
 import { IconArrowNarrowDown, IconArrowNarrowRight } from "@tabler/icons-react";
-import React from "react";
 
 function Home() {
   return (
