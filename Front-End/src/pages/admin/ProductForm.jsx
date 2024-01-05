@@ -181,21 +181,6 @@ function ProductForm() {
               )}
             </div>
 
-            {/* <div>
-              <select
-                placeholder="Product Category"
-                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("category")}
-                id="category"
-              >
-                <option value="">Please select</option>
-                <option value="1">Fashion</option>
-                <option value="2">Food</option>
-              </select>
-              <label htmlFor="category">Product Category</label>
-              <p className="error text-red-600">{errors.category?.message}</p>
-            </div> */}
-
             <button
               className="rounded-lg bg-sky-400 p-2 text-white self-center w-full border border-white"
               type="submit"
