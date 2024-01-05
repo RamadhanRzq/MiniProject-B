@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable no-unused-vars */
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import useSWR from "swr";
 import { toRupiah } from "../../utils/formatter";
