@@ -9,7 +9,9 @@ import com.backend.miniproject.repository.ProductRepository;
 import com.backend.miniproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -19,16 +21,20 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ImgUploadImpl imgUpload;
+
+
     @Override
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
     }
 
     @Override
-    public ProductResponse createProduct(ProductRequest productRequest) {
+    public ProductResponse createProduct(ProductRequest productRequest, MultipartFile file) throws IOException {
         Product product = new Product();
         product.setName(productRequest.getName());
-        product.setImage(productRequest.getImage());
+        product.setImage(imgUpload.uploadFile(file));
         Category category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with ID: " + productRequest.getCategoryId()));
         product.setCategory(category);
@@ -51,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
 
         existingProduct.setName(updatedProductRequest.getName());
-        existingProduct.setImage(updatedProductRequest.getImage());
+        existingProduct.setImage(String.valueOf(updatedProductRequest.getImage()));
         Category category = categoryRepository.findById(updatedProductRequest.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with ID: " + updatedProductRequest.getCategoryId()));
         existingProduct.setCategory(category);

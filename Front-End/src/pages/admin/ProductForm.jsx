@@ -62,7 +62,11 @@ function ProductForm() {
     };
 
     axios
-      .post("http://localhost:8080/api/products", payload)
+      .post("http://localhost:8080/api/products", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(() => {
         alert("Successfully made a new product!");
         reset();
@@ -107,6 +111,7 @@ function ProductForm() {
             <div>
               <label htmlFor="image">Product Image</label>
               <input
+                name="image"
                 type="file"
                 placeholder="Product Image"
                 className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
