@@ -57,7 +57,6 @@ function ProductList() {
                       <th className="px-4 py-2">Product Name</th>
                       <th className="px-4 py-2">Product Image</th>
                       <th className="px-4 py-2">Product Price</th>
-                      <th className="px-4 py-2">Product Description</th>
                       <th className="px-4 py-2">Product Stock</th>
                       <th className="px-4 py-2">Product Category</th>
                       <th className="px-4 py-2">Update</th>
@@ -82,7 +81,6 @@ function ProductList() {
                             </div>
                           </td>
                           <td className="py-2">{toRupiah(product.price)}</td>
-                          <td className="py-2">{product.description}</td>
                           <td className="py-2">{product.stock}</td>
                           <td className="py-2">{product.category}</td>
                           <td className="py-[50px] flex justify-center">

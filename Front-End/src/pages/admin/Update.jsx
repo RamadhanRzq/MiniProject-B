@@ -40,7 +40,6 @@ function Update() {
     name: yup.string().required("Product Name is Required"),
     image: yup.string().required("Product Image is Required"),
     price: yup.string().required("Product Price is Required"),
-    description: yup.string().required("Product Description is Required"),
     stock: yup.string().required("Product Stock is Required"),
     categoryId: yup.string().required("Product Category ID is Required"),
   });
@@ -87,7 +86,6 @@ function Update() {
         setValue("name", productData.name);
         setValue("image", productData.image);
         setValue("price", productData.price);
-        setValue("description", productData.description);
         setValue("stock", productData.stock);
         setValue("categoryId", productData.categoryId);
       } catch (error) {
@@ -140,19 +138,6 @@ function Update() {
                 id="price"
               />
               <p className="error text-red-600">{errors.price?.message}</p>
-            </div>
-
-            <div>
-              <label htmlFor="description">Product Description</label>
-              <input
-                placeholder="Product Description"
-                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("description")}
-                id="description"
-              />
-              <p className="error text-red-600">
-                {errors.description?.message}
-              </p>
             </div>
 
             <div>

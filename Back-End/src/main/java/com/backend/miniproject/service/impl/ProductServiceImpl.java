@@ -28,7 +28,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse createProduct(ProductRequest productRequest) {
         Product product = new Product();
         product.setName(productRequest.getName());
-        product.setDescription(productRequest.getDescription());
         product.setImage(productRequest.getImage());
         Category category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with ID: " + productRequest.getCategoryId()));
@@ -52,7 +51,6 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
 
         existingProduct.setName(updatedProductRequest.getName());
-        existingProduct.setDescription(updatedProductRequest.getDescription());
         existingProduct.setImage(updatedProductRequest.getImage());
         Category category = categoryRepository.findById(updatedProductRequest.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with ID: " + updatedProductRequest.getCategoryId()));
@@ -117,7 +115,6 @@ public class ProductServiceImpl implements ProductService {
 
         productResponse.setId(product.getId());
         productResponse.setName(product.getName());
-        productResponse.setDescription(product.getDescription());
         productResponse.setImage(product.getImage());
         productResponse.setPrice(product.getPrice());
         productResponse.setStock(product.getStock());
