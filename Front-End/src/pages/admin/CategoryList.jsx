@@ -36,7 +36,7 @@ function CategoryList() {
         <div className="col-span-1">
           <div className="bg-white shadow-md p-6 rounded-md">
             <div className="mb-4 flex justify-between items-center">
-              <h4 className="text-lg font-semibold">Categories List</h4>
+              <h4 className="text-lg font-semibold">Category List</h4>
               <div className="m-4">
                 <Link
                   to="/add"
@@ -52,7 +52,7 @@ function CategoryList() {
                 <thead>
                   <tr>
                     <th className="px-4 py-2">Category Name</th>
-                    <th className="px-4 py-2">Aksi</th>
+                    <th className="px-4 py-2">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -65,10 +65,14 @@ function CategoryList() {
                         <td className="py-2">{category.name}</td>
                         <td className="py-2">
                           <button
-                            className="rounded-lg border border-white bg-red-600 p-2 text-white self-center hover:bg-red-700"
+                            className="rounded-lg border border-white p-2 text-white self-center hover:bg-gray-300"
                             onClick={() => handleDelete(category.id)}
                           >
-                            Delete
+                            <img
+                              src="/src/assets/delete.png"
+                              alt="Delete"
+                              className="w-4 h-4"
+                            />
                           </button>
                         </td>
                       </tr>

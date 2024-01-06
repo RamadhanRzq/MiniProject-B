@@ -58,7 +58,6 @@ function CategoryForm() {
 
   return (
     <section className="px-20 ml-96">
-      <h1 className="text-3xl font-semibold">Add Category Form</h1>
       <div className="grid grid-cols-2 gap-20 mt-8">
         <div className="w-[500px]">
           <h2>New Category</h2>
