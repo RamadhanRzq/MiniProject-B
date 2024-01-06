@@ -6,6 +6,7 @@ import com.backend.miniproject.model.request.ProductRequest;
 import com.backend.miniproject.model.response.ProductResponse;
 import com.backend.miniproject.repository.CategoryRepository;
 import com.backend.miniproject.repository.ProductRepository;
+import com.backend.miniproject.service.ImgUpload;
 import com.backend.miniproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,7 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private ImgUploadImpl imgUpload;
-
-
+    private ImgUpload imgUpload;
     @Override
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
