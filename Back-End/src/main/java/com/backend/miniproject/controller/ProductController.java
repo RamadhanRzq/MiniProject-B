@@ -106,11 +106,17 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
     }
+    @GetMapping("/filter")
+    public ResponseEntity<List<ProductResponse>> filterProductsByCategory(@RequestParam Long category) {
+        List<ProductResponse> products = productService.findAllProductsByCategory(category);
+        return ResponseEntity.ok(products);
+    }
     @GetMapping("/search")
     public ResponseEntity<List<ProductResponse>> searchProductsByName(@RequestParam String name) {
         List<ProductResponse> products = productService.findProductsByName(name);
         return ResponseEntity.ok(products);
     }
+
     // GET ALL PRODUCTS ORDERED BY NAME ASCENDING
     @GetMapping("/orderByNameAsc")
     public ResponseEntity<List<ProductResponse>> getAllProductsOrderedByName(){

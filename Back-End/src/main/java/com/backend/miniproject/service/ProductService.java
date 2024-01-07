@@ -1,5 +1,6 @@
 package com.backend.miniproject.service;
 
+import com.backend.miniproject.model.Product;
 import com.backend.miniproject.model.request.ProductRequest;
 import com.backend.miniproject.model.response.ProductResponse;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +15,8 @@ public interface ProductService {
     ProductResponse updateProduct(Long productId,ProductRequest updatedProductRequest);
     void deleteProduct(Long productId);
     boolean productExists(Long productId);
+
+    List<ProductResponse> findAllProductsByCategory(Long category);
     List<ProductResponse> findProductsByName(String name);
 
     List<ProductResponse> getAllProductsOrderedByNameAsc();
