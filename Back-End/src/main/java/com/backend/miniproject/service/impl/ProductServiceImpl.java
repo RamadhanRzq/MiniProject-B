@@ -78,6 +78,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> findAllProductsByCategory(Long category) {
+        List<Product> products = productRepository.findAllByCategoryId(category);
+        return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
+    }
+
+    @Override
     public List<ProductResponse> findProductsByName(String name) {
         List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
         return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
