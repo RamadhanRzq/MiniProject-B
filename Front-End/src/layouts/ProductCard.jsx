@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -13,6 +14,59 @@ function ProductCard() {
   const [sortName, setSortName] = useState("");
   const [filterName, setFilterName] = useState("");
   const [originalProducts, setOriginalProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/category")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setCategories(data.data);
+        } else {
+          console.error("Failed to fetch categories:", data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+
+    const fetchProductsByCategory = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/products/filter?category=${categoryId}`,
+          {
+            headers: { "Cache-Control": "no-cache" },
+            params: {
+              sortByPrice: sortPrice,
+              sortByName: sortName,
+              search: filterName,
+            },
+          }
+        );
+
+        console.log("Response from server:", response.data);
+
+        const data = response.data;
+
+        if (data) {
+          const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
+          setOriginalProducts(sortedData);
+          mutate(sortedData, false);
+        } else {
+          console.error("Data is undefined or null.");
+        }
+      } catch (error) {
+        console.error("Error fetching products by category:", error);
+      }
+    };
+
+    fetchProductsByCategory();
+  };
 
   const handleFilterNameChange = (event) => {
     const value = event.target.value;
@@ -149,6 +203,20 @@ function ProductCard() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="flex justify-center">
+        {categories.map((category, index) => (
+          <div
+            key={category.id}
+            value={category.id}
+            className={`py-2 px-4 ${
+              index < categories.length ? "border-2 border-black mt-2 m-4" : ""
+            } cursor-pointer`}
+            onClick={() => handleCategoryChange(category.id)}
+          >
+            {category.name}
+          </div>
+        ))}
       </div>
       <div className="flex justify-center">
         {isLoading ? (
