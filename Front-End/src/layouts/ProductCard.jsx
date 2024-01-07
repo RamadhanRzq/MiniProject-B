@@ -48,9 +48,6 @@ function ProductCard() {
             },
           }
         );
-
-        console.log("Response from server:", response.data);
-
         const data = response.data;
 
         if (data) {
@@ -66,6 +63,23 @@ function ProductCard() {
     };
 
     fetchProductsByCategory();
+  };
+
+  const fetchAllProducts = async () => {
+    try {
+      const allProductsData = await fetchData(
+        "http://localhost:8080/api/products"
+      );
+
+      if (allProductsData) {
+        setOriginalProducts(allProductsData);
+        mutate(allProductsData, false);
+      } else {
+        console.error("Data is undefined or null.");
+      }
+    } catch (error) {
+      console.error("Error fetching all products:", error);
+    }
   };
 
   const handleFilterNameChange = (event) => {
@@ -205,6 +219,15 @@ function ProductCard() {
         </div>
       </div>
       <div className="flex justify-center">
+        <div
+          className={`py-2 px-4 border-2 border-black mt-2 m-4 cursor-pointer`}
+          onClick={() => {
+            // Clear selected category
+            fetchAllProducts(); // Fetch all products
+          }}
+        >
+          All Product
+        </div>
         {categories.map((category, index) => (
           <div
             key={category.id}
