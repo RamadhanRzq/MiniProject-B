@@ -110,6 +110,18 @@ function ProductForm() {
             </div>
 
             <div>
+              <label htmlFor="name">Product Image</label>
+              <input
+                placeholder="Product Image"
+                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
+                {...register("image")}
+                id="name"
+              />
+
+              <p className="error text-red-600">{errors.image?.message}</p>
+            </div>
+
+            {/* <div>
               <label htmlFor="image">Product Image</label>
               <input
                 name="image"
@@ -121,7 +133,7 @@ function ProductForm() {
               />
 
               <p className="error text-red-600">{errors.image?.message}</p>
-            </div>
+            </div> */}
 
             <div>
               <label htmlFor="price">Product Price</label>

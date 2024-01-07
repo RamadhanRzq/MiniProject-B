@@ -1,9 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
 
 function Category() {
   const [categories, setCategories] = useState([]);

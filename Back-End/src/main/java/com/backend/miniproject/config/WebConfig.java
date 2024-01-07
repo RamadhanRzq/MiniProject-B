@@ -32,16 +32,16 @@ public class WebConfig {
         return new CorsFilter(source);
     }
 
-    private final String CLOUD_NAME = "dd1eyv5p6";
-    private final String API_KEY = "177533479182975";
-    private final String API_SECRET = "0Dq8c7MY0w9AtHtF_w8aEsxDu4k";
-
-    @Bean
-    public Cloudinary cloudinary(){
-        Map<String, String> config = new HashMap<>();
-        config.put("cloud_name",CLOUD_NAME);
-        config.put("api_key",API_KEY);
-        config.put("api_secret",API_SECRET);
-        return new Cloudinary(config);
-    }
+//    private final String CLOUD_NAME = "dd1eyv5p6";
+//    private final String API_KEY = "177533479182975";
+//    private final String API_SECRET = "0Dq8c7MY0w9AtHtF_w8aEsxDu4k";
+//
+//    @Bean
+//    public Cloudinary cloudinary(){
+//        Map<String, String> config = new HashMap<>();
+//        config.put("cloud_name",CLOUD_NAME);
+//        config.put("api_key",API_KEY);
+//        config.put("api_secret",API_SECRET);
+//        return new Cloudinary(config);
+//    }
 }
