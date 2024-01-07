@@ -1,78 +1,96 @@
-import { toRupiah } from "../utils/formatter";
-import { data } from "../data/data";
-import { useNavigate } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "../store/reducers/cartSlice";
+import { removeFromCart, updateQuantity } from "../store/reducers/cartSlice";
+import { toRupiah } from "../utils/formatter";
 
-function Cart() {
-  const navigate = useNavigate();
+const Cart = () => {
   const dispatch = useDispatch();
-  const { dataCart } = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart.dataCart);
 
-  const handleDelete = (itemId) => {
+  const handleRemoveFromCart = (itemId) => {
     dispatch(removeFromCart(itemId));
   };
 
-  console.log(data);
-  console.log(dataCart);
+  const handleUpdateQuantity = (itemId, newQuantity) => {
+    dispatch(updateQuantity({ itemId, newQuantity }));
+  };
+
+  const handleIncrementQuantity = (itemId) => {
+    const item = cartItems.find((item) => item.id === itemId);
+    if (item) {
+      const newQuantity = item.quantity + 1;
+      handleUpdateQuantity(itemId, newQuantity);
+    }
+  };
+
+  const handleDecrementQuantity = (itemId) => {
+    const item = cartItems.find((item) => item.id === itemId);
+    if (item && item.quantity > 1) {
+      const newQuantity = item.quantity - 1;
+      handleUpdateQuantity(itemId, newQuantity);
+    }
+  };
+
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div className="container mt-5">
-      <div className="grid grid-cols-1 items-center text-center justify-center">
-        <div className="col-span-1">
-          <div className="bg-white shadow-md p-6 rounded-md">
-            <div className="mb-4 flex justify-between items-center">
-              <h4 className="text-lg font-semibold">Products Cart</h4>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-2">Product Name</th>
-                    <th className="px-4 py-2">Product Image</th>
-                    <th className="px-4 py-2">Product Price</th>
-                    <th className="px-4 py-2">Quantity</th>
-                    <th className="px-4 py-2">Remove</th>
-                    <th className="px-4 py-2">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dataCart.map((item) => (
-                    <tr key={item.id} className="text-center">
-                      <td className="py-2">{item.title}</td>
-                      <td className="py-2">
-                        <div className="flex justify-center items-center">
-                          <img
-                            src={item.img}
-                            alt={`Product ${item.id} Image`}
-                            className="w-28 h-auto object-center"
-                          />
-                        </div>
-                      </td>
-                      <td className="py-2">{toRupiah(item.price)}</td>
-                      <td className="py-2">{item.qty}</td>
-                      <td className="py-2">
-                        <button
-                          className="rounded-lg border border-white bg-red-600 p-2 text-white self-center hover:bg-red-700"
-                          onClick={() => handleDelete(item.id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                      <td className="py-2">
-                        <span className="font-bold">
-                          {toRupiah(item.qty * item.price)}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+    <div className="cart">
+      <h1 className="text-2xl font-semibold mb-4">Daftar Pesanan</h1>
+      {cartItems.length === 0 ? (
+        <p className="text-center">Belum ada Pesanan</p>
+      ) : (
+        <>
+          <ul>
+            {cartItems.map((item) => (
+              <li
+                key={item.id}
+                className="border-b border-gray-300 py-4 flex justify-between items-center"
+              >
+                <div className="flex items-center space-x-4">
+                  <button
+                    className="text-red-600"
+                    onClick={() => handleRemoveFromCart(item.id)}
+                  >
+                    <MdDeleteOutline size={20} />
+                  </button>
+                  <div className="flex flex-col">
+                    <div className="text-lg font-semibold">{item.name}</div>
+                    <div className="text-gray-600">{toRupiah(item.price)}</div>
+                  </div>
+                </div>
+
+                {/* Quantity Input Field with Increment and Decrement Buttons */}
+                <div className="flex items-center">
+                  <button onClick={() => handleDecrementQuantity(item.id)}>
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    className="text-right w-12 border border-gray-300 rounded-md px-1 py-1 mx-1"
+                    disabled
+                  />
+                  <button onClick={() => handleIncrementQuantity(item.id)}>
+                    +
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-4 flex justify-between items-center">
+            <div className="text-lg font-semibold">Total:</div>
+            <div className="text-xl font-bold">{toRupiah(totalPrice)}</div>
           </div>
-        </div>
-      </div>
+          <button className="mt-4 bg-green-500 text-white py-2 px-4 rounded-md">
+            Bayar Sekarang
+          </button>
+        </>
+      )}
     </div>
   );
-}
+};
+
 export default Cart;

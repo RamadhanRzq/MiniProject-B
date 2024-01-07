@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./layouts/Layout";
+import ProductCard from "./layouts/ProductCard";
+import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import CategoryForm from "./pages/admin/CategoryForm";
 import CategoryList from "./pages/admin/CategoryList";
@@ -15,6 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/product" element={<ProductCard />} />
           <Route path="/list" element={<ProductList />} />
           <Route path="/new" element={<ProductForm />} />
           <Route path="/update/:id" element={<Update />} />

@@ -17,27 +17,37 @@ const cartSlice = createSlice({
       const existingItemIndex = findCartItemIndex(state.dataCart, newItem);
 
       if (existingItemIndex !== -1) {
-        // Item sudah ada di keranjang, tambah qty
         state.dataCart = state.dataCart.map((item, index) => {
           if (index === existingItemIndex) {
             return {
               ...item,
-              qty: item.qty + newItem.qty,
+              quantity: (item.quantity || 1) + (newItem.quantity || 1),
             };
           }
           return item;
         });
       } else {
-        // Item belum ada di keranjang, tambah item baru
-        state.dataCart = [...state.dataCart, newItem];
+        state.dataCart = [
+          ...state.dataCart,
+          { ...newItem, quantity: newItem.quantity || 1 },
+        ];
       }
     },
     removeFromCart: (state, action) => {
-      state.dataCart = state.dataCart.filter((item) => item.id !== action.payload);
+      state.dataCart = state.dataCart.filter(
+        (item) => item.id !== action.payload
+      );
+    },
+    updateQuantity: (state, action) => {
+      const { itemId, newQuantity } = action.payload;
+      const itemToUpdate = state.dataCart.find((item) => item.id === itemId);
+      if (itemToUpdate) {
+        itemToUpdate.quantity = parseInt(newQuantity);
+      }
     },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity } = cartSlice.actions;
 
 export default cartSlice.reducer;

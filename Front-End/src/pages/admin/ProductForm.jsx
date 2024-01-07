@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 
 function ProductForm() {
@@ -83,8 +85,7 @@ function ProductForm() {
 
   return (
     <section className="px-20 ml-96">
-      <h1 className="text-3xl font-semibold">Add Product Form</h1>
-      <div className="grid grid-cols-2 gap-20 mt-8">
+      <div className="grid grid-cols-2 gap-20 mt-4">
         <div className="w-[500px]">
           <h2>New Product</h2>
           <hr />
@@ -189,6 +190,14 @@ function ProductForm() {
             </button>
           </form>
         </div>
+      </div>
+      <div className="mt-4">
+        <Link
+          to="/categories"
+          className="text-sky-600 hover:underline cursor-pointer"
+        >
+          Back to Product List
+        </Link>
       </div>
     </section>
   );

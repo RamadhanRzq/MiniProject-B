@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import * as yup from "yup";
+/* eslint-disable no-unused-vars */
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import * as yup from "yup";
 
 function Update() {
   const [categories, setCategories] = useState([]);
@@ -202,6 +203,14 @@ function Update() {
             </button>
           </form>
         </div>
+      </div>
+      <div className="mt-4">
+        <Link
+          to="/categories"
+          className="text-sky-600 hover:underline cursor-pointer"
+        >
+          Back to Product List
+        </Link>
       </div>
     </section>
   );

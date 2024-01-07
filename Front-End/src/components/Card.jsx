@@ -1,57 +1,33 @@
-import {
-  IconShoppingCart,
-  IconStarFilled,
-  IconStarHalfFilled,
-} from "@tabler/icons-react";
-import React from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import { toRupiah } from "../utils/formatter";
 
 function Card(props) {
   return (
-    <div className="grid gap-6 pt-4 ml-14 mr-14">
-      {props.products.map((product) => (
-        <Link
-          key={product.id}
-          to={`/detail/${product.id}`} // Tautan ke halaman detail produk
-          className="border shadow-lg rounded-lg hover:scale-105"
-        >
-          <div
-            key={product.id}
-            className="border shadow-lg rounded-lg hover:scale-105"
-          >
-            <div className="relative">
-              <h5 className="absolute top-3 left-3 text-white text-xs font-semibold uppercase bg-green-600 px-2 py-1 rounded">
-                {product.description}
-              </h5>
-            </div>
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-3/2 h-3/4 object-cover rounded-t-lg"
-            />
-            <div className="flex justify-between items-center text-center px-2 py-4 mr-5 ml-5">
-              <div className="flex">
-                <IconStarFilled className="text-yellow-500" />
-                <IconStarFilled className="text-yellow-500" />
-                <IconStarFilled className="text-yellow-500" />
-                <IconStarFilled className="text-yellow-500" />
-                <IconStarHalfFilled className="text-yellow-500" />
-              </div>
-              <IconShoppingCart />
-            </div>
-            <div className="justify-center items-center text-center px-2 py-4">
-              <p className="font-bold">{product.name}</p>
-              <p className="bg-primary text-white p-1 rounded-full m-3">
-                {toRupiah(product.price)}
-              </p>
-              <p>Release Date : {product.releaseDate}</p>
-            </div>
-          </div>
-        </Link>
-      ))}
+    <div
+      className="bg-[#f3f6f4] rounded-lg shadow-lg p-1 mt-4 max-w-[200px] cursor-pointer"
+      onClick={props.onClick}
+    >
+      <img
+        src={props.image}
+        alt={props.name}
+        className="rounded-lg w-full h-32 object-cover"
+      />
+      <div className="py-1 pl-1 text-center">
+        <h2 className="text-lg font-semibold">{props.name}</h2>
+        <p className="text-[14px] text-gray-700 pt-1">
+          {toRupiah(props.price)}
+        </p>
+      </div>
     </div>
   );
 }
+
+Card.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 export default Card;

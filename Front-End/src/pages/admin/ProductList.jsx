@@ -32,13 +32,15 @@ function ProductList() {
   return (
     <div className="container mt-5">
       {isLoading ? (
-        <BeatLoader color="#38BDF8" />
+        <div className="flex items-center justify-center h-screen">
+          <BeatLoader color="#38BDF8" />
+        </div>
       ) : (
         <div className="grid grid-cols-1 items-center text-center justify-center">
           <div className="col-span-1">
             <div className="bg-white shadow-md p-6 rounded-md">
               <div className="mb-4 flex justify-between items-center">
-                <h4 className="text-lg font-semibold">Products List</h4>
+                <h4 className="text-lg font-semibold">Product List</h4>
                 <div className="m-4">
                   <Link
                     to="/new"
@@ -83,20 +85,29 @@ function ProductList() {
                           <td className="py-2">{product.description}</td>
                           <td className="py-2">{product.stock}</td>
                           <td className="py-2">{product.category}</td>
-                          <td className="py-2">
+                          <td className="py-[50px] flex justify-center">
                             <Link
-                              className="rounded-lg bg-lime-600 p-2 text-white self-center hover:bg-lime-700"
+                              className="rounded-lg border self-center border-white text-white hover:bg-gray-300"
                               to={`/update/${product.id}`}
                             >
-                              Update
+                              <img
+                                src="/src/assets/edit.png"
+                                alt="Edit"
+                                className="w-5 h-5"
+                              />
                             </Link>
                           </td>
+
                           <td className="py-2">
                             <button
-                              className="rounded-lg border border-white bg-red-600 p-2 text-white self-center hover:bg-red-700"
+                              className="rounded-lg border border-white  p-2 text-white self-center hover:bg-gray-300"
                               onClick={() => handleDelete(product.id)}
                             >
-                              Delete
+                              <img
+                                src="/src/assets/delete.png"
+                                alt="Delete"
+                                className="w-4 h-4"
+                              />
                             </button>
                           </td>
                         </tr>
