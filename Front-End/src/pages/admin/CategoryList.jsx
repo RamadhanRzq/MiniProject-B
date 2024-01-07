@@ -51,17 +51,19 @@ function CategoryList() {
               <table className="min-w-full table-auto">
                 <thead>
                   <tr>
+                    <th className="px-4 py-2">No</th>
                     <th className="px-4 py-2">Category Name</th>
                     <th className="px-4 py-2">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data &&
-                    data.map((category) => (
+                    data.map((category, index) => (
                       <tr
                         key={category.id}
                         className="border-b border-gray-200"
                       >
+                        <td className="py-2">{index + 1}</td>
                         <td className="py-2">{category.name}</td>
                         <td className="py-2">
                           <button

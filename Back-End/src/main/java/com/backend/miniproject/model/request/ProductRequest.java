@@ -1,6 +1,7 @@
 package com.backend.miniproject.model.request;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -8,10 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class ProductRequest {
     private String name;
-    private String image;
-    private String description;
+    private MultipartFile image;
     private Long price;
     private Long stock;
     private Long categoryId;
-
 }

@@ -24,7 +24,6 @@ function Card(props) {
 
 Card.propTypes = {
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,

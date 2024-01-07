@@ -33,7 +33,6 @@ function ProductForm() {
     name: yup.string().required("Product Name is Required"),
     image: yup.string().required("Product Image is Required"),
     price: yup.string().required("Product Price is Required"),
-    description: yup.string().required("Product Description is Required"),
     stock: yup.string().required("Product Stock is Required"),
     categoryId: yup.string().required("Product Category ID is Required"),
   });
@@ -64,7 +63,11 @@ function ProductForm() {
     };
 
     axios
-      .post("http://localhost:8080/api/products", payload)
+      .post("http://localhost:8080/api/products", payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(() => {
         alert("Successfully made a new product!");
         reset();
@@ -109,6 +112,8 @@ function ProductForm() {
             <div>
               <label htmlFor="image">Product Image</label>
               <input
+                name="image"
+                type="file"
                 placeholder="Product Image"
                 className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
                 {...register("image")}
@@ -127,19 +132,6 @@ function ProductForm() {
                 id="price"
               />
               <p className="error text-red-600">{errors.price?.message}</p>
-            </div>
-
-            <div>
-              <label htmlFor="description">Product Description</label>
-              <input
-                placeholder="Product Description"
-                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("description")}
-                id="description"
-              />
-              <p className="error text-red-600">
-                {errors.description?.message}
-              </p>
             </div>
 
             <div>
