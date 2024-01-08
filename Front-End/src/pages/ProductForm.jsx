@@ -5,10 +5,37 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import { BeatLoader } from "react-spinners";
 
 function ProductForm() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [file, setFile] = useState(null);
+  const [imgUrl, setImgUrl] = useState("");
+
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/products/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Upload successful:", response.data);
+      setImgUrl(response.data);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
 
   useEffect(() => {
     fetch("http://localhost:8080/api/category")
@@ -25,13 +52,12 @@ function ProductForm() {
       });
   }, []);
 
-  const handleCategoryChange = (event) => {
+  const handleCategoryChange = async (event) => {
     setSelectedCategory(event.target.value);
   };
 
   const schema = yup.object().shape({
     name: yup.string().required("Product Name is Required"),
-    image: yup.string().required("Product Image is Required"),
     price: yup.string().required("Product Price is Required"),
     stock: yup.string().required("Product Stock is Required"),
     categoryId: yup.string().required("Product Category ID is Required"),
@@ -51,13 +77,10 @@ function ProductForm() {
   });
 
   const onSubmitForm = (data) => {
-    console.log(data);
-
     const payload = {
       name: data.name,
-      image: data.image,
+      image: imgUrl,
       price: data.price,
-      description: data.description,
       stock: data.stock,
       categoryId: data.categoryId,
     };
@@ -108,33 +131,27 @@ function ProductForm() {
 
               <p className="error text-red-600">{errors.name?.message}</p>
             </div>
-
             <div>
-              <label htmlFor="name">Product Image</label>
+              <label htmlFor="image">Product Image</label>
               <input
-                placeholder="Product Image"
+                type="file"
+                onChange={handleFileChange}
                 className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("image")}
-                id="name"
               />
-
-              <p className="error text-red-600">{errors.image?.message}</p>
             </div>
-
-            {/* <div>
+            <div>
               <label htmlFor="image">Product Image</label>
               <input
                 name="image"
-                type="file"
-                placeholder="Product Image"
+                type="hidden"
+                value={imgUrl}
+                onChange={handleFileChange}
                 className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("image")}
                 id="image"
+                {...register("image")}
               />
-
-              <p className="error text-red-600">{errors.image?.message}</p>
-            </div> */}
-
+            </div>
+            <img src={imgUrl} alt="" />
             <div>
               <label htmlFor="price">Product Price</label>
               <input

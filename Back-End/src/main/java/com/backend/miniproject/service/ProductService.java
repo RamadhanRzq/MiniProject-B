@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProductService {
     List<ProductResponse> getAllProducts();
-    ProductResponse createProduct(ProductRequest productRequest, MultipartFile file) throws IOException;
+    ProductResponse createProduct(ProductRequest productRequest) throws IOException;
     ProductResponse getProductById(Long productId);
     ProductResponse updateProduct(Long productId,ProductRequest updatedProductRequest);
     void deleteProduct(Long productId);

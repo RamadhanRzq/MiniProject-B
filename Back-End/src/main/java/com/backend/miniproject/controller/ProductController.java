@@ -5,6 +5,7 @@ import com.backend.miniproject.model.Product;
 import com.backend.miniproject.model.request.ProductRequest;
 import com.backend.miniproject.model.response.ProductResponse;
 import com.backend.miniproject.service.ProductService;
+import com.backend.miniproject.service.impl.ImgUploadImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,15 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ImgUploadImpl imageUploadService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+        String imageUrl = imageUploadService.uploadFile(file);
+        return ResponseEntity.ok(imageUrl);
+    }
     @GetMapping
     public ResponseEntity<ApiResponse<Object>> getAllProducts() {
         List<ProductResponse> products = productService.getAllProducts();
@@ -32,9 +42,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Object>> createProduct(@ModelAttribute ProductRequest productRequest,
-                                                             @RequestParam("image") MultipartFile file) throws IOException {
-        ProductResponse savedProduct = productService.createProduct(productRequest, file);
+    public ResponseEntity<ApiResponse<Object>> createProduct(@ModelAttribute ProductRequest productRequest) throws IOException {
+        ProductResponse savedProduct = productService.createProduct(productRequest);
 
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .status(HttpStatus.OK.value())

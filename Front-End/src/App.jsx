@@ -9,6 +9,7 @@ import CategoryList from "./pages/CategoryList";
 import ProductForm from "./pages/ProductForm";
 import ProductList from "./pages/ProductList";
 import Update from "./pages/Update";
+import TestUpload from "./pages/TestUpload";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/update/:id" element={<Update />} />
           <Route path="/add" element={<CategoryForm />} />
           <Route path="/categories" element={<CategoryList />} />
+          <Route path="/test" element={<TestUpload />} />
         </Routes>
       </Layout>
     </div>
