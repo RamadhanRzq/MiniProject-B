@@ -7,6 +7,7 @@ import com.backend.miniproject.model.response.ProductResponse;
 import com.backend.miniproject.repository.CategoryRepository;
 import com.backend.miniproject.repository.ProductRepository;
 //import com.backend.miniproject.service.ImgUpload;
+import com.backend.miniproject.service.ImgUpload;
 import com.backend.miniproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,23 +23,24 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-//    @Autowired
-//    private ImgUpload imgUpload;
+    @Autowired
+    private ImgUpload imgUpload;
     @Override
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
     }
 
     @Override
-    public ProductResponse createProduct(ProductRequest productRequest, MultipartFile file) throws IOException {
+    public ProductResponse createProduct(ProductRequest productRequest) throws IOException {
         Product product = new Product();
         product.setName(productRequest.getName());
-//        product.setImage(imgUpload.uploadFile(file));
+        product.setImage(productRequest.getImage());
         Category category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with ID: " + productRequest.getCategoryId()));
         product.setCategory(category);
         product.setPrice(productRequest.getPrice());
         product.setStock(productRequest.getStock());
+
         Product savedProduct = productRepository.save(product);
         return mapProductToProductResponse(savedProduct);
     }

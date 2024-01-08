@@ -96,6 +96,9 @@ function Update() {
     fetchData();
   }, [id, setValue]);
 
+    fetchData();
+  }, [id, setValue]);
+
   return (
     <section className="px-20 ml-96">
       <div className="grid grid-cols-2 gap-20 mt-4">
@@ -287,4 +290,4 @@ function Update() {
   );
 }
 
-export default Update;
+export default Update;

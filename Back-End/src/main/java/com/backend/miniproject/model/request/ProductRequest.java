@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class ProductRequest {
     private String name;
-    private MultipartFile image;
+    private String image;
     private Long price;
     private Long stock;
     private Long categoryId;
