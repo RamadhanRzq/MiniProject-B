@@ -6,12 +6,10 @@ import com.backend.miniproject.model.request.ProductRequest;
 import com.backend.miniproject.model.response.ProductResponse;
 import com.backend.miniproject.repository.CategoryRepository;
 import com.backend.miniproject.repository.ProductRepository;
-//import com.backend.miniproject.service.ImgUpload;
 import com.backend.miniproject.service.ImgUpload;
 import com.backend.miniproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
