@@ -1,14 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./layouts/Layout";
-import ProductCard from "./layouts/ProductCard";
+import ProductCard from "./pages/ProductCard";
 import Cart from "./pages/Cart";
 import Home from "./pages/Home";
-import CategoryForm from "./pages/admin/CategoryForm";
-import CategoryList from "./pages/admin/CategoryList";
-import ProductForm from "./pages/admin/ProductForm";
-import ProductList from "./pages/admin/ProductList";
-import Update from "./pages/admin/Update";
+import CategoryForm from "./pages/CategoryForm";
+import CategoryList from "./pages/CategoryList";
+import ProductForm from "./pages/ProductForm";
+import ProductList from "./pages/ProductList";
+import Update from "./pages/Update";
 
 function App() {
   return (

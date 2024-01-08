@@ -1,6 +1,5 @@
-import ProductCard from "../layouts/ProductCard";
+import ProductCard from "./ProductCard";
 import Cart from "./Cart";
-import Category from "./Category";
 
 function Home() {
   return (
@@ -11,9 +10,6 @@ function Home() {
       <div className="col-span-3 ml-10 border-l-2 border-black pl-4">
         <Cart />
       </div>
-      {/* <div className="mt-10 col-span-5 ml-4 border-t-2 border-black pl-4">
-        <Category />
-      </div> */}
     </div>
   );
 }

@@ -219,29 +219,6 @@ function ProductCard() {
         </div>
       </div>
       <div className="flex justify-center">
-        <div
-          className={`py-2 px-4 border-2 border-black mt-2 m-4 cursor-pointer`}
-          onClick={() => {
-            // Clear selected category
-            fetchAllProducts(); // Fetch all products
-          }}
-        >
-          All Product
-        </div>
-        {categories.map((category, index) => (
-          <div
-            key={category.id}
-            value={category.id}
-            className={`py-2 px-4 ${
-              index < categories.length ? "border-2 border-black mt-2 m-4" : ""
-            } cursor-pointer`}
-            onClick={() => handleCategoryChange(category.id)}
-          >
-            {category.name}
-          </div>
-        ))}
-      </div>
-      <div className="flex justify-center">
         {isLoading ? (
           <BeatLoader color="#38BDF8" />
         ) : (
@@ -261,6 +238,33 @@ function ProductCard() {
               ))}
           </div>
         )}
+      </div>
+      <div className="relative flex justify-center">
+        <div className="flex justify-center fixed mt-10 ml-4 bottom-0 border-t-2 border-black pl-4 bg-white">
+          <div
+            className={`hover:text-lime-700 hover:font-bold py-2 px-4 mt-2 m-4 cursor-pointer`}
+            onClick={() => {
+              // Clear selected category
+              fetchAllProducts(); // Fetch all products
+            }}
+          >
+            All Product
+          </div>
+          {categories.map((category, index) => (
+            <div
+              key={category.id}
+              value={category.id}
+              className={`py-2 px-4 ${
+                index < categories.length
+                  ? "hover:text-lime-700 hover:font-bold py-2 px-4 border-l-2 border-black mt-2 m-4 cursor-pointer"
+                  : ""
+              } cursor-pointer`}
+              onClick={() => handleCategoryChange(category.id)}
+            >
+              {category.name}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import useSWR from "swr";
-import { toRupiah } from "../../utils/formatter";
+import { toRupiah } from "../utils/formatter";
 
 function ProductList() {
   const fetchData = async (url) => {
