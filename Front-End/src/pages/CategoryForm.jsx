@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -5,8 +6,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 
-function CategoryForm() {
-  // eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line react/prop-types
+function CategoryForm({ setIsFormModalVisible, mutate }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -57,8 +58,8 @@ function CategoryForm() {
   };
 
   return (
-    <section className="px-20 ml-96">
-      <div className="grid grid-cols-2 gap-20 mt-8">
+    <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex items-center justify-center overflow-auto">
+      <div className="bg-white px-8 py-4 rounded-md max-w-full">
         <div className="w-[500px]">
           <h2>New Category</h2>
           <hr />
@@ -87,6 +88,7 @@ function CategoryForm() {
 
           <div className="mt-4">
             <Link
+              onClick={() => setIsFormModalVisible(false)}
               to="/categories"
               className="text-sky-600 hover:underline cursor-pointer"
             >
@@ -95,7 +97,7 @@ function CategoryForm() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

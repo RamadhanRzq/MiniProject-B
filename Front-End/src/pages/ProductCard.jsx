@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { IoSearch } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import Card from "../components/Card";
 import { addToCart } from "../store/reducers/cartSlice";
-import { IoSearch } from "react-icons/io5";
 
 function ProductCard() {
   const dispatch = useDispatch();
@@ -168,102 +168,96 @@ function ProductCard() {
   }
 
   return (
-    <section className="flex flex-col justify-center">
-      <div className="mt-4 flex justify-between items-center">
-        <h1 className="text-2xl font-semibold mb-4">Daftar Produk</h1>
-        <div className="flex justify-end">
-          <div>
-            <select
-              placeholder="Urutkan berdasarkan:"
-              className="p-4 pe-12 w-full rounded-lg border-[1px] border-gray-300 text-gray-700 sm:text-sm"
-              id="sorting"
-              onChange={(e) => {
-                if (e.target.value === "Sort By Highest Price") {
-                  handleSortByHighestPrice();
-                } else if (e.target.value === "Sort By Lowest Price") {
-                  handleSortByLowestPrice();
-                } else if (e.target.value === "Sort By Name A-Z") {
-                  handleSortByNameAscending();
-                } else if (e.target.value === "Sort By Name Z-A") {
-                  handleSortByNameDescending();
-                }
-              }}
-            >
-              <option value="">-Urutkan-</option>
-              <option value="Sort By Highest Price">
-                Urutkan Berdasarkan Harga Tertinggi
-              </option>
-              <option value="Sort By Lowest Price">
-                Urutkan Berdasarkan Harga Terendah
-              </option>
-              <option value="Sort By Name A-Z">
-                Urutkan Berdasarkan Nama A-Z
-              </option>
-              <option value="Sort By Name Z-A">
-                Urutkan Berdasarkan Nama Z-A
-              </option>
-            </select>
+    <section className="flex flex-col lg:flex-row">
+      <div className="h-full p-4 left-0 w-1/5 bg-white flex flex-col items-center">
+        <h1 className="text-xl font-semibold">Daftar Produk</h1>
+        <div
+          className="hover:text-lime-700 hover:font-bold px-4 mt-10 hover:border-b-2 hover:border-black cursor-pointer"
+          onClick={fetchAllProducts}
+        >
+          All Product
+        </div>
+        {categories.map((category, index) => (
+          <div
+            key={category.id}
+            value={category.id}
+            className={`hover:text-lime-700 hover:font-bold py-2 px-4 hover:border-b-2 hover:border-black cursor-pointer mt-4`}
+            onClick={() => handleCategoryChange(category.id)}
+          >
+            {category.name}
           </div>
-          <div className="p-2 ml-4 flex items-center border-[1px] border-gray-300 rounded-md">
-            <input
-              type="text"
-              placeholder="Cari Produk..."
-              value={filterName}
-              onChange={handleFilterNameChange}
-              className="flex-1 p-2 border-none focus:outline-none"
-            />
-            <div className="ml-2 text-gray-400">
-              <IoSearch size={25} />
+        ))}
+      </div>
+      <div className="lg:w-3/4">
+        <div className="mt-4 flex justify-between items-center">
+          <div className="flex justify-end">
+            <div>
+              <select
+                placeholder="Urutkan berdasarkan:"
+                className="p-2 pe-4 w-full rounded-lg border border-gray-300 text-gray-700 sm:text-sm"
+                id="sorting"
+                onChange={(e) => {
+                  if (e.target.value === "Sort By Highest Price")
+                    handleSortByHighestPrice();
+                  else if (e.target.value === "Sort By Lowest Price")
+                    handleSortByLowestPrice();
+                  else if (e.target.value === "Sort By Name A-Z")
+                    handleSortByNameAscending();
+                  else if (e.target.value === "Sort By Name Z-A")
+                    handleSortByNameDescending();
+                }}
+              >
+                <option value="">-Urutkan-</option>
+                <option value="Sort By Highest Price">
+                  Urutkan Berdasarkan Harga Tertinggi
+                </option>
+                <option value="Sort By Lowest Price">
+                  Urutkan Berdasarkan Harga Terendah
+                </option>
+                <option value="Sort By Name A-Z">
+                  Urutkan Berdasarkan Nama A-Z
+                </option>
+                <option value="Sort By Name Z-A">
+                  Urutkan Berdasarkan Nama Z-A
+                </option>
+              </select>
+            </div>
+            <div className="ml-4 flex items-center border border-gray-300 rounded-md">
+              <input
+                type="text"
+                placeholder="Cari Produk..."
+                value={filterName}
+                onChange={handleFilterNameChange}
+                className="flex-1 p-2 border-none focus:outline-none"
+              />
+              <div className="ml-2 text-gray-400">
+                <IoSearch size={25} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex justify-center">
-        {isLoading ? (
-          <BeatLoader color="#38BDF8" />
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {data &&
-              data.map(({ id, name, description, image, price }) => (
-                <Card
-                  key={id}
-                  name={name}
-                  description={description}
-                  price={price}
-                  image={image}
-                  onClick={() => {
-                    onClickAddToCart({ id, name, image, price });
-                  }}
-                />
-              ))}
-          </div>
-        )}
-      </div>
-      <div className="relative flex justify-center">
-        <div className="flex justify-center fixed mt-10 ml-4 bottom-0 border-t-2 border-black pl-4 bg-white">
-          <div
-            className={`hover:text-lime-700 hover:font-bold py-2 px-4 mt-2 m-4 cursor-pointer`}
-            onClick={() => {
-              // Clear selected category
-              fetchAllProducts(); // Fetch all products
-            }}
-          >
-            All Product
-          </div>
-          {categories.map((category, index) => (
-            <div
-              key={category.id}
-              value={category.id}
-              className={`py-2 px-4 ${
-                index < categories.length
-                  ? "hover:text-lime-700 hover:font-bold py-2 px-4 border-l-2 border-black mt-2 m-4 cursor-pointer"
-                  : ""
-              } cursor-pointer`}
-              onClick={() => handleCategoryChange(category.id)}
-            >
-              {category.name}
+        <div className="flex justify-center">
+          {isLoading ? (
+            <BeatLoader color="#38BDF8" />
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {data &&
+                data.map(
+                  ({ id, name, description, image, price, category }) => (
+                    <Card
+                      key={id}
+                      name={name}
+                      description={description}
+                      price={price}
+                      image={image}
+                      onClick={() =>
+                        onClickAddToCart({ id, name, image, price })
+                      }
+                    />
+                  )
+                )}
             </div>
-          ))}
+          )}
         </div>
       </div>
     </section>

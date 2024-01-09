@@ -9,6 +9,8 @@ import * as yup from "yup";
 function Update() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [file, setFile] = useState(null);
+  const [imgUrl, setImgUrl] = useState("");
 
   const fetchData = async (url) => {
     const data = await axios
@@ -96,6 +98,30 @@ function Update() {
     fetchData();
   }, [id, setValue]);
 
+  const handleFileChange = async (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/products/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Upload berhasil:", response.data);
+      setImgUrl(response.data);
+    } catch (error) {
+      console.error("Error mengunggah file:", error);
+    }
+  };
+
   return (
     <section className="px-20 ml-96">
       <h1 className="text-3xl font-semibold">Update Product Form</h1>
@@ -119,14 +145,12 @@ function Update() {
             </div>
 
             <div>
-              <label htmlFor="image">Product Image</label>
+              <label htmlFor="image">Gambar Produk</label>
               <input
-                placeholder="Product Image"
+                type="file"
+                onChange={handleFileChange}
                 className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
-                {...register("image")}
-                id="image"
               />
-              <p className="error text-red-600">{errors.image?.message}</p>
             </div>
 
             <div>

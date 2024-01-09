@@ -1,21 +1,17 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
+import { useState } from "react";
+import { LuPencilLine } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import useSWR from "swr";
 import { toRupiah } from "../utils/formatter";
+import ProductForm from "./ProductForm";
 
 function ProductList() {
-  const fetchData = async (url) => {
-    const data = await axios
-      .get(url, { headers: { "Cache-Control": "no-cache" } })
-      .then((res) => res.data.data);
-    return data;
-  };
-
   const { data, isLoading, error, mutate } = useSWR(
     "http://localhost:8080/api/products",
-    () => fetchData(`http://localhost:8080/api/products`)
+    () => fetchData("http://localhost:8080/api/products")
   );
 
   const handleDelete = (id) => {
@@ -28,6 +24,17 @@ function ProductList() {
         console.log("Error deleting product:", error);
       });
   };
+
+  const fetchData = async (url) => {
+    const data = await axios
+      .get(url, { headers: { "Cache-Control": "no-cache" } })
+      .then((res) => res.data.data);
+    return data;
+  };
+
+  // State untuk mengelola keterlihatan modal formulir
+  const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
 
   return (
     <div className="container mt-5">
@@ -42,16 +49,17 @@ function ProductList() {
               <div className="mb-4 flex justify-between items-center">
                 <h4 className="text-lg font-semibold">Product List</h4>
                 <div className="m-4">
-                  <Link
-                    to="/new"
+                  <button
                     className="rounded-lg bg-sky-600 p-2 text-white self-center hover:bg-sky-700"
+                    onClick={() => setIsFormModalVisible(true)}
                   >
                     Add Product
-                  </Link>
+                  </button>
                 </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full table-auto">
+                  {/* ... (Table Header) */}
                   <thead>
                     <tr>
                       <th className="px-4 py-2">Product Name</th>
@@ -63,6 +71,7 @@ function ProductList() {
                       <th className="px-4 py-2">Delete</th>
                     </tr>
                   </thead>
+                  {/* ... (Table Body) */}
                   <tbody>
                     {data &&
                       data.map((product) => (
@@ -70,6 +79,7 @@ function ProductList() {
                           key={product.id}
                           className="border-b border-gray-200"
                         >
+                          {/* ... (Table Data) */}
                           <td className="py-2">{product.name}</td>
                           <td className="py-2">
                             <div className="flex justify-center items-center">
@@ -83,16 +93,9 @@ function ProductList() {
                           <td className="py-2">{toRupiah(product.price)}</td>
                           <td className="py-2">{product.stock}</td>
                           <td className="py-2">{product.category}</td>
-                          <td className="py-[50px] flex justify-center">
-                            <Link
-                              className="rounded-lg border self-center border-white text-white hover:bg-gray-300"
-                              to={`/update/${product.id}`}
-                            >
-                              <img
-                                src="/src/assets/edit.png"
-                                alt="Edit"
-                                className="w-5 h-5"
-                              />
+                          <td className="py-14 flex justify-center">
+                            <Link className="" to={`/update/${product.id}`}>
+                              <LuPencilLine className="h-4 w-4" />
                             </Link>
                           </td>
 
@@ -117,6 +120,30 @@ function ProductList() {
           </div>
         </div>
       )}
+
+      {/* Modal formulir tambah produk */}
+      {isFormModalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-8 rounded-md shadow-md">
+            <ProductForm
+              setIsFormModalVisible={setIsFormModalVisible}
+              mutate={mutate}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Modal formulir update produk
+      {isUpdateModalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-8 rounded-md shadow-md">
+            <Update
+              setIsFormModalVisible={setIsUpdateModalVisible}
+              mutate={mutate}
+            />
+          </div>
+        </div>
+      )} */}
     </div>
   );
 }

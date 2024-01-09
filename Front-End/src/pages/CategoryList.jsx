@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import useSWR from "swr";
+import CategoryForm from "./CategoryForm"; // Impor formulir kategori
 
 function CategoryList() {
   const fetchCategories = async (url) => {
@@ -19,6 +20,8 @@ function CategoryList() {
     fetchCategories
   );
 
+  const [showForm, setShowForm] = useState(false); // State untuk menampilkan formulir
+
   const handleDelete = (id) => {
     axios
       .delete(`http://localhost:8080/api/category/${id}`)
@@ -26,7 +29,7 @@ function CategoryList() {
         mutate();
       })
       .catch((error) => {
-        console.log("Error deleting product:", error);
+        console.log("Error deleting category:", error);
       });
   };
 
@@ -38,13 +41,12 @@ function CategoryList() {
             <div className="mb-4 flex justify-between items-center">
               <h4 className="text-lg font-semibold">Category List</h4>
               <div className="m-4">
-                <Link
-                  to="/add"
+                <button
                   className="rounded-lg bg-sky-600 p-2 text-white self-center hover:bg-sky-700"
-                  onClick={() => {}}
+                  onClick={() => setShowForm(true)}
                 >
                   Add Category
-                </Link>
+                </button>
               </div>
             </div>
             <div className="overflow-x-auto">
@@ -85,6 +87,18 @@ function CategoryList() {
           </div>
         </div>
       </div>
+
+      {/* Popup Formulir Kategori */}
+      {showForm && (
+        <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-md w-[400px] max-w-full">
+            <CategoryForm
+              setShowForm={setShowForm} // Prop untuk menutup popup formulir
+              mutateCategories={mutate} // Prop untuk memperbarui kategori setelah menambahkan
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
