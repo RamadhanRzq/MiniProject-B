@@ -1,6 +1,10 @@
 import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, updateQuantity } from "../store/reducers/cartSlice";
+import {
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+} from "../store/reducers/cartSlice";
 import { toRupiah } from "../utils/formatter";
 
 const Cart = () => {
@@ -35,6 +39,11 @@ const Cart = () => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const handleCheckout = () => {
+    alert("Pesanan Anda berhasil dibayar!");
+    dispatch(clearCart());
+  };
 
   return (
     <div className="cart">
@@ -84,7 +93,10 @@ const Cart = () => {
             <div className="text-lg font-semibold">Total:</div>
             <div className="text-xl font-bold">{toRupiah(totalPrice)}</div>
           </div>
-          <button className="mt-4 bg-green-500 text-white py-2 px-4 rounded-md">
+          <button
+            className="mt-4 bg-green-500 text-white py-2 px-4 rounded-md"
+            onClick={handleCheckout}
+          >
             Bayar Sekarang
           </button>
         </>

@@ -10,7 +10,9 @@ const findCartItemIndex = (cartItems, newItem) => {
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: {
+    dataCart: [],
+  },
   reducers: {
     addToCart: (state, action) => {
       const newItem = action.payload;
@@ -45,9 +47,12 @@ const cartSlice = createSlice({
         itemToUpdate.quantity = parseInt(newQuantity);
       }
     },
+    clearCart: (state) => {
+      state.dataCart = [];
+    },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
