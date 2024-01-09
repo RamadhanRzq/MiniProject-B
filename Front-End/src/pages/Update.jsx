@@ -12,13 +12,6 @@ function Update() {
   const [file, setFile] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
 
-  const fetchData = async (url) => {
-    const data = await axios
-      .get(url, { headers: { "Cache-Control": "no-cache" } })
-      .then((res) => res.data.data);
-    return data;
-  };
-
   useEffect(() => {
     fetch("http://localhost:8080/api/category")
       .then((response) => response.json())

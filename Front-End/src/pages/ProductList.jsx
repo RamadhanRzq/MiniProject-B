@@ -32,7 +32,6 @@ function ProductList() {
     return data;
   };
 
-  // State untuk mengelola keterlihatan modal formulir
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
 
