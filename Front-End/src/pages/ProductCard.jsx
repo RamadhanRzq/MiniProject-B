@@ -172,8 +172,11 @@ function ProductCard() {
       <div className="h-full p-4 left-0 w-1/5 bg-white flex flex-col items-center">
         <h1 className="text-xl font-semibold">Daftar Produk</h1>
         <div
-          className="hover:text-lime-700 hover:font-bold px-4 mt-10 hover:border-b-2 hover:border-black cursor-pointer"
-          onClick={fetchAllProducts}
+          className="hover:text-lime-700 hover:font-bold py-2 px-4 mt-10 cursor-pointer"
+          onClick={() => {
+            fetchAllProducts();
+            setSelectedCategory(null);
+          }}
         >
           All Product
         </div>
@@ -181,8 +184,19 @@ function ProductCard() {
           <div
             key={category.id}
             value={category.id}
-            className={`hover:text-lime-700 hover:font-bold py-2 px-4 hover:border-b-2 hover:border-black cursor-pointer mt-4`}
-            onClick={() => handleCategoryChange(category.id)}
+            className={`hover:text-lime-700 hover:font-bold py-2 px-4 cursor-pointer mt-4${
+              index < categories.length
+                ? ` ${
+                    selectedCategory === category.id
+                      ? "bg-lime-200 text-black font-bold"
+                      : ""
+                  }`
+                : ""
+            }`}
+            onClick={() => {
+              handleCategoryChange(category.id);
+              setSelectedCategory(category.id);
+            }}
           >
             {category.name}
           </div>

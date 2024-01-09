@@ -147,21 +147,8 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
               className=" rounded-lg border-[1px] border-gray-200 p-4 text-sm focus:outline-sky-200"
             />
           </div>
-          {/* <div>
-            <label htmlFor="image">Gambar Produk</label>
-            <input
-              name="image"
-              type="hidden"
-              value={imgUrl}
-              onChange={handleFileChange}
-              className=" rounded-lg border-[1px] border-gray-200 p-4 text-sm focus:outline-sky-200"
-              id="image"
-              {...register("image")}
-            />
-          </div>
-          {imgUrl && <img src={imgUrl} alt="" className="w-1/3" />} */}
+          {imgUrl && <img src={imgUrl} alt="" className="w-full" />}
 
-          {/* Harga Produk */}
           <div className="sm:col-span-4">
             <label
               htmlFor="price"
