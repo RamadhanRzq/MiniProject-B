@@ -7,8 +7,11 @@ import { BeatLoader } from "react-spinners";
 import useSWR from "swr";
 import { toRupiah } from "../utils/formatter";
 import ProductForm from "./ProductForm";
+import Update from "./Update";
 
 function ProductList() {
+  const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
   const { data, isLoading, error, mutate } = useSWR(
     "http://localhost:8080/api/products",
     () => fetchData("http://localhost:8080/api/products")
@@ -31,10 +34,6 @@ function ProductList() {
       .then((res) => res.data.data);
     return data;
   };
-
-  // State untuk mengelola keterlihatan modal formulir
-  const [isFormModalVisible, setIsFormModalVisible] = useState(false);
-  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
 
   return (
     <div className="container mt-5">
@@ -120,7 +119,6 @@ function ProductList() {
           </div>
         </div>
       )}
-
       {/* Modal formulir tambah produk */}
       {isFormModalVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
@@ -132,18 +130,14 @@ function ProductList() {
           </div>
         </div>
       )}
-
-      {/* Modal formulir update produk
+      {/* Modal formulir update produk */}
       {isUpdateModalVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white p-8 rounded-md shadow-md">
-            <Update
-              setIsFormModalVisible={setIsUpdateModalVisible}
-              mutate={mutate}
-            />
+            <Update setIsFormModalVisible={setIsUpdateModalVisible} />
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
