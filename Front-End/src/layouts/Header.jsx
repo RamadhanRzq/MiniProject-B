@@ -1,11 +1,24 @@
 import { IconHome, IconMenu2, IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MdListAlt } from "react-icons/md";
 import { TbCategoryPlus } from "react-icons/tb";
 import { Link } from "react-router-dom";
 
 function Header() {
   const [header, setHeader] = useState(false);
+  const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setHeader(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [sidebarRef]);
 
   return (
     <header className="w-full flex border-b-[1px] border-gray-300 bg-hijau">
@@ -25,17 +38,18 @@ function Header() {
             ""
           )}
           <div
+            ref={sidebarRef}
             className={
               header
                 ? "fixed top-0 left-0 w-[300px] h-screen bg-white z-10 duration-300"
                 : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
             }
           >
-            <IconX
+            {/* <IconX
               onClick={() => setHeader(!header)}
               size={30}
               className="absolute right-4 top-4 cursor-pointer"
-            />
+            /> */}
             <h2 className="text-2xl py-4 pl-5 font-bold text-hijau">
               Dashboard
             </h2>
