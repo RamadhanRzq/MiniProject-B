@@ -55,15 +55,24 @@ function Header() {
             </h2>
             <nav>
               <ul className="flex flex-col p-4 text-gray-800">
-                <Link to="/" className="text-xl flex hover:text-hijau">
+                <Link
+                  to="/"
+                  className="text-xl flex hover:text-hijau"
+                  onClick={() => setHeader(!header)}
+                >
                   <IconHome size={25} className="mr-4" /> Home
                 </Link>
-                <Link to="/list" className="text-xl py-4 flex hover:text-hijau">
+                <Link
+                  to="/list"
+                  className="text-xl py-4 flex hover:text-hijau"
+                  onClick={() => setHeader(!header)}
+                >
                   <MdListAlt size={25} className="mr-4" /> Product List
                 </Link>
                 <Link
                   to="/categories"
                   className="text-xl flex hover:text-hijau"
+                  onClick={() => setHeader(!header)}
                 >
                   <TbCategoryPlus size={25} className="mr-4" /> Categories
                 </Link>
