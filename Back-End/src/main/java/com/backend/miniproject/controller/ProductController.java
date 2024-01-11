@@ -1,7 +1,6 @@
 package com.backend.miniproject.controller;
 
 import com.backend.miniproject.model.ApiResponse;
-import com.backend.miniproject.model.Product;
 import com.backend.miniproject.model.request.ProductRequest;
 import com.backend.miniproject.model.response.ProductResponse;
 import com.backend.miniproject.service.ProductService;
@@ -118,39 +117,6 @@ public class ProductController {
     @GetMapping("/filter")
     public ResponseEntity<List<ProductResponse>> filterProductsByCategory(@RequestParam Long category) {
         List<ProductResponse> products = productService.findAllProductsByCategory(category);
-        return ResponseEntity.ok(products);
-    }
-    @GetMapping("/search")
-    public ResponseEntity<List<ProductResponse>> searchProductsByName(@RequestParam String name) {
-        List<ProductResponse> products = productService.findProductsByName(name);
-        return ResponseEntity.ok(products);
-    }
-
-    // GET ALL PRODUCTS ORDERED BY NAME ASCENDING
-    @GetMapping("/orderByNameAsc")
-    public ResponseEntity<List<ProductResponse>> getAllProductsOrderedByName(){
-        List<ProductResponse> products = productService.getAllProductsOrderedByNameAsc();
-        return ResponseEntity.ok(products);
-    }
-
-    // GET ALL PRODUCTS ORDERED BY PRICE ASCENDING
-    @GetMapping("/orderByPriceAsc")
-    public ResponseEntity<List<ProductResponse>> getAllProductsOrderedByPrice(){
-        List<ProductResponse> products = productService.getAllProductsOrderedByPriceAsc();
-        return ResponseEntity.ok(products);
-    }
-
-    // GET ALL PRODUCTS ORDERED BY NAME DESCENDING
-    @GetMapping("/orderByNameDesc")
-    public ResponseEntity<List<ProductResponse>> getAllProductsOrderedByNameDesc(){
-        List<ProductResponse> products = productService.getAllProductsOrderedByNameDesc();
-        return ResponseEntity.ok(products);
-    }
-
-    // GET ALL PRODUCTS ORDERED BY PRICE DESCENDING
-    @GetMapping("/orderByPriceDesc")
-    public ResponseEntity<List<ProductResponse>> getAllProductsOrderedByPriceDesc(){
-        List<ProductResponse> products = productService.getAllProductsOrderedByPriceDesc();
         return ResponseEntity.ok(products);
     }
 }

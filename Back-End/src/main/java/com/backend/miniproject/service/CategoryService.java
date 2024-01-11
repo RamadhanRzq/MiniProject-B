@@ -1,10 +1,7 @@
 package com.backend.miniproject.service;
 
-import com.backend.miniproject.model.Category;
 import com.backend.miniproject.model.request.CategoryRequest;
-import com.backend.miniproject.model.request.ProductRequest;
 import com.backend.miniproject.model.response.CategoryResponse;
-import com.backend.miniproject.model.response.ProductResponse;
 
 import java.util.List;
 
