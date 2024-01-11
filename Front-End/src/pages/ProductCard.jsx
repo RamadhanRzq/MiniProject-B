@@ -154,10 +154,8 @@ function ProductCard() {
       } else if (sortPrice === "lowest") {
         sortedProducts.sort((a, b) => a.price - b.price);
       }
-
-      mutate(sortedProducts, false);
     }
-  }, [filterName, sortPrice, sortName, mutate, data, originalProducts]);
+  }, [filterName, sortPrice, sortName, data, originalProducts]);
 
   const onClickAddToCart = (product) => {
     dispatch(addToCart(product));

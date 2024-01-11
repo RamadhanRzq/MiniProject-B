@@ -153,15 +153,13 @@ function Update({ setIsFormModalVisible }) {
             </div>
 
             {/* Gambar Produk */}
-            <div>
-              <label htmlFor="image">Gambar Produk</label>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                className=" rounded-lg border-[1px] border-gray-200 p-4 text-sm focus:outline-sky-200"
-              />
-            </div>
-            {imgUrl && <img src={imgUrl} alt="" className="w-full" />}
+            {/* <label htmlFor="image">Gambar Produk</label> */}
+            <input
+              type="hidden"
+              onChange={handleFileChange}
+              className=" rounded-lg border-[1px] border-gray-200 p-4 text-sm focus:outline-sky-200"
+            />
+            {/* {imgUrl && <img src={imgUrl} alt="" className="w-full" />} */}
 
             <div className="sm:col-span-4">
               <label
