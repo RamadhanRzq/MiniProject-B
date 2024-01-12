@@ -44,13 +44,11 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createProduct(@ModelAttribute ProductRequest productRequest) throws IOException {
         ProductResponse savedProduct = productService.createProduct(productRequest);
-
         ApiResponse<Object> apiResponse = ApiResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Success Create Data")
                 .data(savedProduct)
                 .build();
-
         return ResponseEntity.ok(apiResponse);
     }
 
