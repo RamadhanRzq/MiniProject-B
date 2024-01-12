@@ -135,7 +135,7 @@ function ProductCard() {
 
   useEffect(() => {
     if (data) {
-      let sortedProducts = [...originalProducts];
+      let sortedProducts = [...data];
 
       if (sortName === "ascending") {
         sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
