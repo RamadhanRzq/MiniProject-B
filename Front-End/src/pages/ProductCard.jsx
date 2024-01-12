@@ -84,6 +84,9 @@ function ProductCard() {
 
   const handleFilterNameChange = (event) => {
     const value = event.target.value;
+    if (!value) {
+      fetchAllProducts();
+    }
     setFilterName(value);
   };
 
