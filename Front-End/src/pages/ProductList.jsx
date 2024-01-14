@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
@@ -11,10 +12,12 @@ import ProductForm from "./ProductForm";
 import Update from "./Update";
 
 function ProductList() {
-  const [filterName, setFilterName] = useState("");
-  const [originalProducts, setOriginalProducts] = useState([]);
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+  const { data, isLoading, error, mutate } = useSWR(
+    "http://localhost:8080/api/products",
+    () => fetchData("http://localhost:8080/api/products")
+  );
 
   const handleDelete = (id) => {
     axios
@@ -27,51 +30,12 @@ function ProductList() {
       });
   };
 
-  const handleFilterNameChange = (event) => {
-    const value = event.target.value;
-    setFilterName(value);
-  };
-
   const fetchData = async (url) => {
     const data = await axios
-      .get(url, {
-        headers: { "Cache-Control": "no-cache" },
-        params: {
-          search: filterName,
-        },
-      })
+      .get(url, { headers: { "Cache-Control": "no-cache" } })
       .then((res) => res.data.data);
     return data;
   };
-
-  const { data, isLoading, error, mutate } = useSWR(
-    "http://localhost:8080/api/products",
-    () => fetchData("http://localhost:8080/api/products"),
-    {
-      onSuccess: (data) => {
-        const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
-        setOriginalProducts(sortedData);
-        return sortedData;
-      },
-    }
-  );
-
-  useEffect(() => {
-    if (data) {
-      let sortedProducts = [...originalProducts];
-
-      if (filterName) {
-        sortedProducts = sortedProducts.filter((product) =>
-          product.name.toLowerCase().includes(filterName.toLowerCase())
-        );
-      }
-      mutate(sortedProducts, false);
-    }
-  }, [filterName, mutate, data, originalProducts]);
-
-  if (error) {
-    return <div>Error loading products: {error.message}</div>;
-  }
 
   return (
     <div className="container mt-5">
@@ -81,23 +45,7 @@ function ProductList() {
         </div>
       ) : (
         <div className="grid grid-cols-1 items-center text-center justify-center">
-          <div className="mt-4 flex justify-between items-center">
-            <div className="flex justify-end">
-              <div className="ml-4 flex items-center border border-gray-300 rounded-md">
-                <input
-                  type="text"
-                  placeholder="Cari Produk..."
-                  value={filterName}
-                  onChange={handleFilterNameChange}
-                  className="flex-1 p-2 border-none focus:outline-none"
-                />
-                <div className="ml-2 text-gray-400">
-                  <IoSearch size={25} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-span-1 mt-2">
+          <div className="col-span-1">
             <div className="bg-white shadow-md p-6 rounded-md">
               <div className="mb-4 flex justify-between items-center">
                 <h4 className="text-lg font-semibold">Daftar Produk</h4>
