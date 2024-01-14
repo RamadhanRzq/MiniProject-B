@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState } from "react";
+import { FaPlusCircle } from "react-icons/fa";
 import useSWR from "swr";
-import CategoryForm from "./CategoryForm"; // Impor formulir kategori
+import CategoryForm from "./CategoryForm";
 
 function CategoryList() {
   const fetchCategories = async (url) => {
@@ -39,13 +40,14 @@ function CategoryList() {
         <div className="col-span-1">
           <div className="bg-white shadow-md p-6 rounded-md">
             <div className="mb-4 flex justify-between items-center">
-              <h4 className="text-lg font-semibold">Category List</h4>
-              <div className="m-4">
+              <h4 className="text-lg font-semibold">Daftar Kategori</h4>
+              <div className="m-4 flex items-center">
                 <button
-                  className="rounded-lg bg-sky-600 p-2 text-white self-center hover:bg-sky-700"
+                  className="flex items-center p-2 rounded-lg bg-muda text-white border-none hover:bg-hijau "
                   onClick={() => setShowForm(true)}
                 >
-                  Add Category
+                  Tambah Kategori
+                  <FaPlusCircle className="ml-2" />
                 </button>
               </div>
             </div>
@@ -53,9 +55,9 @@ function CategoryList() {
               <table className="min-w-full table-auto">
                 <thead>
                   <tr>
-                    <th className="px-4 py-2">No</th>
-                    <th className="px-4 py-2">Category Name</th>
-                    <th className="px-4 py-2">Delete</th>
+                    {/* <th className="px-4 py-2">No</th> */}
+                    <th className="px-4 py-2">Nama Kategori</th>
+                    <th className="px-4 py-2">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -65,7 +67,7 @@ function CategoryList() {
                         key={category.id}
                         className="border-b border-gray-200"
                       >
-                        <td className="py-2">{index + 1}</td>
+                        {/* <td className="py-2">{index + 1}</td> */}
                         <td className="py-2">{category.name}</td>
                         <td className="py-2">
                           <button

@@ -122,28 +122,26 @@ function Update({ setIsFormModalVisible }) {
     <>
       <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex items-center justify-center overflow-auto">
         <div className="bg-white px-8 py-4 rounded-md w-[400px] max-w-full h-auto">
-          <h2 className="font-bold text-2xl">Update Produk Baru</h2>
+          <h2 className="font-bold text-2xl">Update Produk</h2>
+          <hr />
           <form
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 mt-4"
             onSubmit={handleSubmit(onSubmitForm)}
             encType="multipart/form-data"
           >
             {/* Nama Produk */}
             <div className="sm:col-span-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
+              <label htmlFor="name" className="block text-sm font-medium ">
                 Nama Produk
               </label>
               <div className="">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <div className="flex rounded-md shadow-sm border-2 border-gray-300 ">
                   <input
                     type="text"
                     name="name"
                     id="name"
                     autoComplete="name"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    className="block flex-1 border-0 bg-transparent py-2 pl-2 placeholder:text-gray-400 "
                     placeholder="Nama Produk"
                     {...register("name")}
                   />
@@ -162,20 +160,17 @@ function Update({ setIsFormModalVisible }) {
             {/* {imgUrl && <img src={imgUrl} alt="" className="w-full" />} */}
 
             <div className="sm:col-span-4">
-              <label
-                htmlFor="price"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="price" className="block text-sm font-medium ">
                 Harga Produk
               </label>
               <div className="mt-1">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <div className="flex rounded-md shadow-sm border-2 border-gray-300 ">
                   <input
                     type="text"
                     name="price"
                     id="price"
                     autoComplete="price"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    className="block flex-1 border-0 bg-transparent py-2 pl-2 placeholder:text-gray-400 "
                     placeholder="Harga Produk"
                     {...register("price")}
                   />
@@ -186,20 +181,17 @@ function Update({ setIsFormModalVisible }) {
 
             {/* Stok Produk */}
             <div className="sm:col-span-4">
-              <label
-                htmlFor="stock"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
+              <label htmlFor="stock" className="block text-sm font-medium ">
                 Stok Produk
               </label>
               <div className="mt-1">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <div className="flex rounded-md shadow-sm border-2 border-gray-300 ">
                   <input
                     type="text"
                     name="stock"
                     id="stock"
                     autoComplete="stock"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    className="block flex-1 border-0 bg-transparent py-2 pl-2 placeholder:text-gray-400 "
                     placeholder="Stok Produk"
                     {...register("stock")}
                   />
@@ -212,7 +204,7 @@ function Update({ setIsFormModalVisible }) {
             <div className="sm:col-span-3">
               <label
                 htmlFor="categoryId"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-medium "
               >
                 Pilih Kategori
               </label>
@@ -222,7 +214,7 @@ function Update({ setIsFormModalVisible }) {
                   value={selectedCategory}
                   name="categoryId"
                   autoComplete="categoryId"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md py-2 shadow-sm border-2 border-gray-300"
                   {...register("categoryId")}
                   onChange={handleCategoryChange}
                 >
@@ -251,7 +243,7 @@ function Update({ setIsFormModalVisible }) {
             <div className="mt-1 flex items-center justify-between gap-x-6">
               <button
                 type="submit"
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-md bg-muda px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-hijau border-none"
               >
                 Simpan
               </button>

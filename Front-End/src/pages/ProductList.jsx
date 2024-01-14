@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { IoSearch } from "react-icons/io5";
+import { useState } from "react";
+import { FaPlusCircle } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import useSWR from "swr";
@@ -12,7 +11,6 @@ import ProductForm from "./ProductForm";
 import Update from "./Update";
 
 function ProductList() {
-  const dispatch = useDispatch();
   const [filterName, setFilterName] = useState("");
   const [originalProducts, setOriginalProducts] = useState([]);
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
@@ -102,13 +100,14 @@ function ProductList() {
           <div className="col-span-1 mt-2">
             <div className="bg-white shadow-md p-6 rounded-md">
               <div className="mb-4 flex justify-between items-center">
-                <h4 className="text-lg font-semibold">Product List</h4>
+                <h4 className="text-lg font-semibold">Daftar Produk</h4>
                 <div className="m-4">
                   <button
-                    className="rounded-lg bg-sky-600 p-2 text-white self-center hover:bg-sky-700"
+                    className="flex items-center p-2 rounded-lg border-none bg-muda text-white hover:bg-hijau "
                     onClick={() => setIsFormModalVisible(true)}
                   >
-                    Add Product
+                    Tambah Produk
+                    <FaPlusCircle className="ml-2" />
                   </button>
                 </div>
               </div>
@@ -117,13 +116,13 @@ function ProductList() {
                   {/* ... (Table Header) */}
                   <thead>
                     <tr>
-                      <th className="px-4 py-2">Product Name</th>
-                      <th className="px-4 py-2">Product Image</th>
-                      <th className="px-4 py-2">Product Price</th>
-                      <th className="px-4 py-2">Product Stock</th>
-                      <th className="px-4 py-2">Product Category</th>
-                      <th className="px-4 py-2">Update</th>
-                      <th className="px-4 py-2">Delete</th>
+                      <th className="px-4 py-2">Nama</th>
+                      <th className="px-4 py-2">Gambar</th>
+                      <th className="px-4 py-2">Harga</th>
+                      <th className="px-4 py-2">Stok</th>
+                      <th className="px-4 py-2">Kategori</th>
+                      <th className="px-4 py-2">Aksi</th>
+                      {/* <th className="px-4 py-2">Delete</th> */}
                     </tr>
                   </thead>
                   {/* ... (Table Body) */}
@@ -148,22 +147,18 @@ function ProductList() {
                           <td className="py-2">{toRupiah(product.price)}</td>
                           <td className="py-2">{product.stock}</td>
                           <td className="py-2">{product.category}</td>
-                          <td className="py-14 flex justify-center">
-                            <Link className="" to={`/update/${product.id}`}>
+                          <td className="py-14 flex items-center justify-center">
+                            <Link
+                              to={`/update/${product.id}`}
+                              className="rounded-lg border border-white p-2 text-blue-600 mr-3 hover:bg-gray-300"
+                            >
                               <LuPencilLine className="h-4 w-4" />
                             </Link>
-                          </td>
-
-                          <td className="py-2">
                             <button
-                              className="rounded-lg border border-white  p-2 text-white self-center hover:bg-gray-300"
+                              className="rounded-lg border border-white p-2 text-red-700 hover:bg-gray-300"
                               onClick={() => handleDelete(product.id)}
                             >
-                              <img
-                                src="/src/assets/delete.png"
-                                alt="Delete"
-                                className="w-4 h-4"
-                              />
+                              <RiDeleteBin6Line />
                             </button>
                           </td>
                         </tr>

@@ -84,6 +84,9 @@ function ProductCard() {
 
   const handleFilterNameChange = (event) => {
     const value = event.target.value;
+    if (!value) {
+      fetchAllProducts();
+    }
     setFilterName(value);
   };
 
@@ -135,7 +138,7 @@ function ProductCard() {
 
   useEffect(() => {
     if (data) {
-      let sortedProducts = [...originalProducts];
+      let sortedProducts = [...data];
 
       if (sortName === "ascending") {
         sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
@@ -183,7 +186,7 @@ function ProductCard() {
           <div
             key={category.id}
             value={category.id}
-            className={`hover:text-lime-700 hover:font-bold py-2 px-4 cursor-pointer mt-4${
+            className={`hover:text-lime-700 rounded-lg hover:font-bold py-2 px-4 cursor-pointer mt-4${
               index < categories.length
                 ? ` ${
                     selectedCategory === category.id
