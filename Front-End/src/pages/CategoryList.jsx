@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import useSWR from "swr";
 import CategoryForm from "./CategoryForm";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 function CategoryList() {
   const fetchCategories = async (url) => {
@@ -21,7 +21,7 @@ function CategoryList() {
     fetchCategories
   );
 
-  const [showForm, setShowForm] = useState(false); // State untuk menampilkan formulir
+  const [showForm, setShowForm] = useState(false);
 
   const handleDelete = (id) => {
     axios
@@ -55,7 +55,6 @@ function CategoryList() {
               <table className="min-w-full table-auto">
                 <thead>
                   <tr>
-                    {/* <th className="px-4 py-2">No</th> */}
                     <th className="px-4 py-2">Nama Kategori</th>
                     <th className="px-4 py-2">Aksi</th>
                   </tr>
@@ -67,18 +66,13 @@ function CategoryList() {
                         key={category.id}
                         className="border-b border-gray-200 hover:bg-gray-100"
                       >
-                        {/* <td className="py-2">{index + 1}</td> */}
                         <td className="py-2">{category.name}</td>
                         <td className="py-2">
                           <button
-                            className="rounded-lg border border-white p-2 text-white self-center hover:bg-gray-300"
+                            className="rounded-lg border border-white p-2 text-red-700 hover:bg-gray-300"
                             onClick={() => handleDelete(category.id)}
                           >
-                            <img
-                              src="/src/assets/delete.png"
-                              alt="Delete"
-                              className="w-4 h-4"
-                            />
+                            <RiDeleteBin6Line />
                           </button>
                         </td>
                       </tr>
@@ -90,14 +84,10 @@ function CategoryList() {
         </div>
       </div>
 
-      {/* Popup Formulir Kategori */}
       {showForm && (
         <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-8 rounded-md w-[400px] max-w-full">
-            <CategoryForm
-              setShowForm={setShowForm} // Prop untuk menutup popup formulir
-              mutateCategories={mutate} // Prop untuk memperbarui kategori setelah menambahkan
-            />
+            <CategoryForm setShowForm={setShowForm} mutateCategories={mutate} />
           </div>
         </div>
       )}

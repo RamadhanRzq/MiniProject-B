@@ -9,7 +9,7 @@ import {
 import { toRupiah } from "../utils/formatter";
 import PopUp from "./PopUp";
 
-const Cart = () => {
+function Cart() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.dataCart);
   const [isPopUpCheckoutOpen, setPopUpCheckoutOpen] = useState(false);
@@ -86,7 +86,7 @@ const Cart = () => {
                     </div>
                   </div>
 
-                  {/* Quantity Input Field with Increment and Decrement Buttons */}
+                  {/* Menambah dan Mengurangi Quantity */}
                   <div className="flex items-center">
                     <button onClick={() => handleDecrementQuantity(item.id)}>
                       -
@@ -117,9 +117,11 @@ const Cart = () => {
           </>
         )}
       </div>
-      {isPopUpCheckoutOpen && <PopUp onCancel={closePopUp} />}
+      {isPopUpCheckoutOpen && (
+        <PopUp onCancel={closePopUp} title="Transaksi Berhasil." />
+      )}
     </>
   );
-};
+}
 
 export default Cart;

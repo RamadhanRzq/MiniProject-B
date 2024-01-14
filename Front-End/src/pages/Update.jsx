@@ -1,17 +1,17 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
+import PopUp from "./PopUp";
 
 function Update({ setIsFormModalVisible }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
+  const [isPopUpSuccessOpen, setPopUpSuccessOpen] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/category")
@@ -20,11 +20,11 @@ function Update({ setIsFormModalVisible }) {
         if (data.status === 200) {
           setCategories(data.data);
         } else {
-          console.error("Failed to fetch categories:", data.message);
+          console.error("Gagal mengambil kategori:", data.message);
         }
       })
       .catch((error) => {
-        console.error("Error fetching categories:", error);
+        console.error("Kesalahan dalam mengambil kategori:", error);
       });
   }, []);
 
@@ -32,12 +32,21 @@ function Update({ setIsFormModalVisible }) {
     setSelectedCategory(event.target.value);
   };
 
+  const openPopUp = () => {
+    setPopUpSuccessOpen(true);
+  };
+
+  const closePopUp = () => {
+    setPopUpSuccessOpen(false);
+    setIsFormModalVisible(false);
+  };
+
   const schema = yup.object().shape({
-    name: yup.string().required("Product Name is Required"),
-    image: yup.string().required("Product Image is Required"),
-    price: yup.string().required("Product Price is Required"),
-    stock: yup.string().required("Product Stock is Required"),
-    categoryId: yup.string().required("Product Category ID is Required"),
+    name: yup.string().required("Nama Produk Wajib Diisi"),
+    image: yup.string().required("Gambar Produk Wajib Diisi"),
+    price: yup.string().required("Harga Produk Wajib Diisi"),
+    stock: yup.string().required("Stok Produk Wajib Diisi"),
+    categoryId: yup.string().required("ID Kategori Produk Wajib Diisi"),
   });
 
   const { id } = useParams();
@@ -69,8 +78,7 @@ function Update({ setIsFormModalVisible }) {
           "Access-Control-Allow-Origin": "*",
         },
       });
-      alert("Berhasil Update Produk");
-      navigate("/list");
+      openPopUp();
     } catch (error) {
       console.error(error);
     }
@@ -161,13 +169,14 @@ function Update({ setIsFormModalVisible }) {
             </div>
 
             {/* Gambar Produk */}
-            {/* <label htmlFor="image">Gambar Produk</label> */}
             <input
               type="file"
               onChange={handleFileChange}
               className=" rounded-lg border-[1px] border-gray-200 p-4 text-sm focus:outline-sky-200"
             />
-            {imgUrl && <img src={imgUrl} alt="" className="w-full" />}
+            <div className="flex justify-center">
+              {imgUrl && <img src={imgUrl} alt="" className="w-1/2" />}
+            </div>
 
             <div className="sm:col-span-4">
               <label htmlFor="price" className="block text-sm font-medium ">
@@ -249,7 +258,6 @@ function Update({ setIsFormModalVisible }) {
               </div>
             </div>
 
-            {/* Tombol Simpan dan Batal */}
             <div className="mt-1 flex items-center justify-between gap-x-6">
               <button
                 type="submit"
@@ -259,7 +267,6 @@ function Update({ setIsFormModalVisible }) {
               </button>
             </div>
 
-            {/* Kembali ke Daftar Produk Link */}
             <div className="mt-1">
               <Link
                 onClick={() => setIsFormModalVisible(false)}
@@ -271,6 +278,9 @@ function Update({ setIsFormModalVisible }) {
             </div>
           </form>
         </div>
+        {isPopUpSuccessOpen && (
+          <PopUp onCancel={closePopUp} title="Produk Berhasil Diedit." />
+        )}
       </div>
     </>
   );

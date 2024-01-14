@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { IoSearch } from "react-icons/io5";
 import { FaPlusCircle } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -12,12 +12,10 @@ import ProductForm from "./ProductForm";
 import Update from "./Update";
 
 function ProductList() {
+  const [filterName, setFilterName] = useState("");
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+  const [originalProducts, setOriginalProducts] = useState([]);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
-  const { data, isLoading, error, mutate } = useSWR(
-    "http://localhost:8080/api/products",
-    () => fetchData("http://localhost:8080/api/products")
-  );
 
   const handleDelete = (id) => {
     axios
@@ -26,16 +24,71 @@ function ProductList() {
         mutate();
       })
       .catch((error) => {
-        console.log("Error deleting product:", error);
+        console.log("Gagal menghapus produk:", error);
       });
+  };
+
+  const fetchAllProducts = async () => {
+    try {
+      const allProductsData = await fetchData(
+        "http://localhost:8080/api/products"
+      );
+
+      if (allProductsData) {
+        setOriginalProducts(allProductsData);
+        mutate(allProductsData, false);
+      } else {
+        console.error("Data tidak ditemukan.");
+      }
+    } catch (error) {
+      console.error("Pengambilan data produk error:", error);
+    }
+  };
+
+  const handleFilterNameChange = (event) => {
+    const value = event.target.value;
+    if (!value) {
+      fetchAllProducts();
+    }
+    setFilterName(value);
   };
 
   const fetchData = async (url) => {
     const data = await axios
-      .get(url, { headers: { "Cache-Control": "no-cache" } })
+      .get(url, {
+        headers: { "Cache-Control": "no-cache" },
+        params: {
+          search: filterName,
+        },
+      })
       .then((res) => res.data.data);
     return data;
   };
+
+  const { data, isLoading, error, mutate } = useSWR(
+    "http://localhost:8080/api/products",
+    () => fetchData("http://localhost:8080/api/products"),
+    {
+      onSuccess: (data) => {
+        const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
+        setOriginalProducts(sortedData);
+        return sortedData;
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (data) {
+      let sortedProducts = [...data];
+
+      if (filterName) {
+        sortedProducts = sortedProducts.filter((product) =>
+          product.name.toLowerCase().includes(filterName.toLowerCase())
+        );
+      }
+      mutate(sortedProducts, false);
+    }
+  }, [filterName, mutate, data, originalProducts]);
 
   return (
     <div className="container mt-5">
@@ -48,6 +101,18 @@ function ProductList() {
           <div className="col-span-1">
             <div className="bg-white shadow-md p-6 rounded-md">
               <div className="mb-4 flex justify-between items-center">
+                <div className="ml-4 flex items-center border border-gray-300 rounded-md bg-gray-100">
+                  <input
+                    type="text"
+                    placeholder="Cari Produk..."
+                    value={filterName}
+                    onChange={handleFilterNameChange}
+                    className="flex-1 p-2 border-none focus:outline-none"
+                  />
+                  <div className="ml-2 text-gray-400 mr-2">
+                    <IoSearch size={25} />
+                  </div>
+                </div>
                 <h4 className="text-lg font-semibold">Daftar Produk</h4>
                 <div className="m-4">
                   <button
@@ -61,7 +126,6 @@ function ProductList() {
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full table-auto">
-                  {/* ... (Table Header) */}
                   <thead>
                     <tr>
                       <th className="px-4 py-2">Nama</th>
@@ -70,10 +134,8 @@ function ProductList() {
                       <th className="px-4 py-2">Stok</th>
                       <th className="px-4 py-2">Kategori</th>
                       <th className="px-4 py-2">Aksi</th>
-                      {/* <th className="px-4 py-2">Delete</th> */}
                     </tr>
                   </thead>
-                  {/* ... (Table Body) */}
                   <tbody>
                     {data &&
                       data.map((product) => (
@@ -81,7 +143,6 @@ function ProductList() {
                           key={product.id}
                           className="border-b border-gray-200 hover:bg-gray-100"
                         >
-                          {/* ... (Table Data) */}
                           <td className="py-2">{product.name}</td>
                           <td className="py-2">
                             <div className="flex justify-center items-center">
@@ -118,7 +179,6 @@ function ProductList() {
           </div>
         </div>
       )}
-      {/* Modal formulir tambah produk */}
       {isFormModalVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white p-8 rounded-md shadow-md">
@@ -129,7 +189,6 @@ function ProductList() {
           </div>
         </div>
       )}
-      {/* Modal formulir update produk */}
       {isUpdateModalVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white p-8 rounded-md shadow-md">

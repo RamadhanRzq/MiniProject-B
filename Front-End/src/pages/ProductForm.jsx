@@ -1,17 +1,17 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import PopUp from "./PopUp";
 
 function ProductForm({ setIsFormModalVisible, mutate }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
+  const [isPopUpSuccessOpen, setPopUpSuccessOpen] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/category")
@@ -27,6 +27,15 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
         console.error("Error mengambil kategori:", error);
       });
   }, []);
+
+  const openPopUp = () => {
+    setPopUpSuccessOpen(true);
+  };
+
+  const closePopUp = () => {
+    setPopUpSuccessOpen(false);
+    setIsFormModalVisible(false);
+  };
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -65,16 +74,15 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
         },
       })
       .then(() => {
-        alert("Berhasil menambahkan produk baru!");
+        openPopUp();
         reset();
-        setIsFormModalVisible(false);
         mutate();
       })
       .catch((error) => {
         if (error.response) {
           alert(`Error: ${error.response.data.message}`);
         } else {
-          alert("Terjadi kesalahan saat memproses permintaan Anda.");
+          alert("Error saat mengambil data.");
         }
 
         reset();
@@ -145,7 +153,9 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
               className="rounded-lg border-2 border-gray-300 p-4 text-sm focus:outline-sky-200"
             />
           </div>
-          {imgUrl && <img src={imgUrl} alt="" className="w-full" />}
+          <div className="flex justify-center">
+            {imgUrl && <img src={imgUrl} alt="" className="w-1/2" />}
+          </div>
 
           <div className="sm:col-span-4">
             <label htmlFor="price" className="text-base">
@@ -241,7 +251,7 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
             </button>
           </div>
 
-          {/* Kembali ke Daftar Produk Link */}
+          {/* Kembali ke Daftar Produk */}
           <div className="mt-1">
             <Link
               onClick={() => setIsFormModalVisible(false)}
@@ -253,6 +263,12 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
           </div>
         </form>
       </div>
+      {isPopUpSuccessOpen && (
+        <PopUp
+          onCancel={closePopUp}
+          title="Produk Baru Berhasil Ditambahkan."
+        />
+      )}
     </div>
   );
 }

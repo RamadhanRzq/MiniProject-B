@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -207,46 +206,42 @@ function ProductCard() {
       <div className="lg:w-3/4">
         <div className="mt-4 flex justify-between items-center">
           <div className="flex justify-end">
-            <div>
-              <select
-                placeholder="Urutkan berdasarkan:"
-                className="p-2 pe-4 w-full rounded-lg border border-gray-300 text-gray-700 sm:text-sm"
-                id="sorting"
-                onChange={(e) => {
-                  if (e.target.value === "Sort By Highest Price")
-                    handleSortByHighestPrice();
-                  else if (e.target.value === "Sort By Lowest Price")
-                    handleSortByLowestPrice();
-                  else if (e.target.value === "Sort By Name A-Z")
-                    handleSortByNameAscending();
-                  else if (e.target.value === "Sort By Name Z-A")
-                    handleSortByNameDescending();
-                }}
-              >
-                <option value="">-Urutkan-</option>
-                <option value="Sort By Highest Price">
-                  Urutkan Berdasarkan Harga Tertinggi
-                </option>
-                <option value="Sort By Lowest Price">
-                  Urutkan Berdasarkan Harga Terendah
-                </option>
-                <option value="Sort By Name A-Z">
-                  Urutkan Berdasarkan Nama A-Z
-                </option>
-                <option value="Sort By Name Z-A">
-                  Urutkan Berdasarkan Nama Z-A
-                </option>
-              </select>
-            </div>
-            <div className="ml-4 flex items-center border border-gray-300 rounded-md">
+            <div className="flex items-center border border-gray-300 rounded-md bg-gray-100">
+              <div>
+                <select
+                  placeholder="Urutkan berdasarkan:"
+                  className="pl-2 py-3 rounded-l-lg border border-gray-300 sm:text-sm w-52 bg-gray-200"
+                  id="sorting"
+                  onChange={(e) => {
+                    if (e.target.value === "Sort By Highest Price")
+                      handleSortByHighestPrice();
+                    else if (e.target.value === "Sort By Lowest Price")
+                      handleSortByLowestPrice();
+                    else if (e.target.value === "Sort By Name A-Z")
+                      handleSortByNameAscending();
+                    else if (e.target.value === "Sort By Name Z-A")
+                      handleSortByNameDescending();
+                  }}
+                >
+                  <option value="">Urutkan</option>
+                  <option value="Sort By Highest Price">
+                    Harga: Tinggi ke Rendah
+                  </option>
+                  <option value="Sort By Lowest Price">
+                    Harga: Rendah ke Tinggi
+                  </option>
+                  <option value="Sort By Name A-Z">Nama: A ke Z</option>
+                  <option value="Sort By Name Z-A">Nama: Z ke A</option>
+                </select>
+              </div>
               <input
                 type="text"
                 placeholder="Cari Produk..."
                 value={filterName}
                 onChange={handleFilterNameChange}
-                className="flex-1 p-2 border-none focus:outline-none"
+                className="flex-1 p-2 border-none focus:outline-none w-96"
               />
-              <div className="ml-2 text-gray-400">
+              <div className="ml-2 text-gray-400 mr-2">
                 <IoSearch size={25} />
               </div>
             </div>
