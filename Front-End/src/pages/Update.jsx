@@ -53,8 +53,17 @@ function Update({ setIsFormModalVisible }) {
   });
 
   const onSubmitForm = async (data) => {
+    const payload = {
+      name: data.name,
+      image: imgUrl,
+      price: data.price,
+      description: data.description,
+      stock: data.stock,
+      categoryId: data.categoryId,
+    };
+    console.log("data sebelum upload", data);
     try {
-      await axios.patch(`http://localhost:8080/api/products/${id}`, data, {
+      await axios.patch(`http://localhost:8080/api/products/${id}`, payload, {
         headers: {
           "Cache-Control": "no-cache",
           "Access-Control-Allow-Origin": "*",
@@ -82,10 +91,10 @@ function Update({ setIsFormModalVisible }) {
         const productData = response.data.data;
         console.log(productData);
         setValue("name", productData.name);
-        setValue("image", productData.image);
         setValue("price", productData.price);
         setValue("stock", productData.stock);
         setValue("categoryId", productData.categoryId);
+        setImgUrl(productData.image);
       } catch (error) {
         console.error(error);
       }
@@ -153,11 +162,11 @@ function Update({ setIsFormModalVisible }) {
             {/* Gambar Produk */}
             {/* <label htmlFor="image">Gambar Produk</label> */}
             <input
-              type="hidden"
+              type="file"
               onChange={handleFileChange}
               className=" rounded-lg border-[1px] border-gray-200 p-4 text-sm focus:outline-sky-200"
             />
-            {/* {imgUrl && <img src={imgUrl} alt="" className="w-full" />} */}
+            {imgUrl && <img src={imgUrl} alt="" className="w-full" />}
 
             <div className="sm:col-span-4">
               <label htmlFor="price" className="block text-sm font-medium ">

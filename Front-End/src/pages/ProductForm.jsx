@@ -67,7 +67,7 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
       .then(() => {
         alert("Berhasil menambahkan produk baru!");
         reset();
-        setIsFormModalVisible(false); // Menutup modal
+        setIsFormModalVisible(false);
         mutate();
       })
       .catch((error) => {
