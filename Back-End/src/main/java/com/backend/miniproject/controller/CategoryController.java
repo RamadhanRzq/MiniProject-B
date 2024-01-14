@@ -1,7 +1,6 @@
 package com.backend.miniproject.controller;
 
 import com.backend.miniproject.model.ApiResponse;
-import com.backend.miniproject.model.Category;
 import com.backend.miniproject.model.request.CategoryRequest;
 import com.backend.miniproject.model.response.CategoryResponse;
 import com.backend.miniproject.service.CategoryService;

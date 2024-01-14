@@ -56,7 +56,7 @@ function Header() {
             <nav>
               <ul className="flex flex-col p-4 text-gray-800">
                 <Link
-                  to="/"
+                  to="/home"
                   className="text-xl flex hover:text-hijau"
                   onClick={() => setHeader(!header)}
                 >

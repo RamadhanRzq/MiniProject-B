@@ -154,7 +154,6 @@ function ProductCard() {
       } else if (sortPrice === "lowest") {
         sortedProducts.sort((a, b) => a.price - b.price);
       }
-
       mutate(sortedProducts, false);
     }
   }, [filterName, sortPrice, sortName, mutate, data, originalProducts]);
@@ -204,7 +203,76 @@ function ProductCard() {
       </div>
       <div className="lg:w-3/4">
         <div className="mt-4 flex justify-between items-center">
-          <div className="flex justify-end">
+          <form>
+            <div className="flex">
+              <select
+                id="dropdown-button"
+                data-dropdown-toggle="dropdown"
+                className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                onChange={(e) => {
+                  if (e.target.value === "Sort By Highest Price")
+                    handleSortByHighestPrice();
+                  else if (e.target.value === "Sort By Lowest Price")
+                    handleSortByLowestPrice();
+                  else if (e.target.value === "Sort By Name A-Z")
+                    handleSortByNameAscending();
+                  else if (e.target.value === "Sort By Name Z-A")
+                    handleSortByNameDescending();
+                }}
+              >
+                <option
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  value=""
+                >
+                  Urutkan
+                </option>
+                <option
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  value="Sort By Highest Price"
+                >
+                  Urutkan Berdasarkan Harga Tertinggi
+                </option>
+                <option
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  value="Sort By Lowest Price"
+                >
+                  Urutkan Berdasarkan Harga Terendah
+                </option>
+                <option
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  value="Sort By Name A-Z"
+                >
+                  Urutkan Berdasarkan Nama A-Z
+                </option>
+                <option
+                  className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  value="Sort By Name Z-A"
+                >
+                  Urutkan Berdasarkan Nama Z-A
+                </option>
+              </select>
+
+              <div className="relative w-full">
+                <input
+                  type="search"
+                  id="search-dropdown"
+                  className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                  placeholder="Search Mockups, Logos, Design Templates..."
+                  value={filterName}
+                  onChange={handleFilterNameChange}
+                />
+                <button
+                  type="submit"
+                  className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  <IoSearch size={25} />
+                  <span className="sr-only">Search</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          {/* <div className="flex justify-end">
             <div>
               <select
                 placeholder="Urutkan berdasarkan:"
@@ -248,7 +316,7 @@ function ProductCard() {
                 <IoSearch size={25} />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-center">
           {isLoading ? (

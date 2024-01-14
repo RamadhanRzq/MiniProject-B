@@ -83,35 +83,6 @@ public class ProductServiceImpl implements ProductService {
         return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
     }
 
-    @Override
-    public List<ProductResponse> findProductsByName(String name) {
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
-        return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProductResponse> getAllProductsOrderedByNameAsc() {
-        List<Product> products = productRepository.findAllByOrderByNameAsc();
-        return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProductResponse> getAllProductsOrderedByPriceAsc() {
-        List<Product> products = productRepository.findAllByOrderByPriceAsc();
-        return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProductResponse> getAllProductsOrderedByNameDesc() {
-        List<Product> products = productRepository.findAllByOrderByNameDesc();
-        return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProductResponse> getAllProductsOrderedByPriceDesc() {
-        List<Product> products = productRepository.findAllByOrderByPriceDesc();
-        return products.stream().map(this::mapProductToProductResponse).collect(Collectors.toList());
-    }
 
     public ProductResponse mapProductToProductResponse(Product product) {
         Category category = product.getCategory();
