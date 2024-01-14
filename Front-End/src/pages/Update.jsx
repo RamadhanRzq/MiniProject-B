@@ -91,6 +91,7 @@ function Update({ setIsFormModalVisible }) {
         const productData = response.data.data;
         console.log(productData);
         setValue("name", productData.name);
+        setValue("image", productData.image);
         setValue("price", productData.price);
         setValue("stock", productData.stock);
         setValue("categoryId", productData.categoryId);
