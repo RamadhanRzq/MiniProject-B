@@ -186,7 +186,7 @@ function ProductCard() {
           <div
             key={category.id}
             value={category.id}
-            className={`hover:text-lime-700 hover:font-bold py-2 px-4 cursor-pointer mt-4${
+            className={`hover:text-lime-700 rounded-lg hover:font-bold py-2 px-4 cursor-pointer mt-4${
               index < categories.length
                 ? ` ${
                     selectedCategory === category.id

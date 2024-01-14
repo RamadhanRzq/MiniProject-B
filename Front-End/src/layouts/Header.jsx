@@ -46,21 +46,21 @@ function Header() {
                   className="text-xl flex hover:text-hijau"
                   onClick={() => setHeader(!header)}
                 >
-                  <IconHome size={25} className="mr-4" /> Home
+                  <IconHome size={25} className="mr-4" /> Beranda
                 </Link>
                 <Link
                   to="/list"
                   className="text-xl py-4 flex hover:text-hijau"
                   onClick={() => setHeader(!header)}
                 >
-                  <MdListAlt size={25} className="mr-4" /> Product List
+                  <MdListAlt size={25} className="mr-4" /> Daftar Produk
                 </Link>
                 <Link
                   to="/categories"
                   className="text-xl flex hover:text-hijau"
                   onClick={() => setHeader(!header)}
                 >
-                  <TbCategoryPlus size={25} className="mr-4" /> Categories
+                  <TbCategoryPlus size={25} className="mr-4" /> Daftar Kategori
                 </Link>
               </ul>
             </nav>

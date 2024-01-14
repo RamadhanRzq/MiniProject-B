@@ -3,9 +3,9 @@ import { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  clearCart,
   removeFromCart,
   updateQuantity,
-  clearCart,
 } from "../store/reducers/cartSlice";
 import { toRupiah } from "../utils/formatter";
 import PopUp from "./PopUp";
@@ -110,7 +110,7 @@ const Cart = () => {
               <div className="text-xl font-bold">{toRupiah(totalPrice)}</div>
             </div>
             <button
-              className="mt-4 bg-green-500 text-white py-2 px-4 rounded-md"
+              className="mt-4 bg-muda text-white py-2 px-4 rounded-md border-none hover:bg-hijau"
               onClick={handleCheckout}
             >
               Bayar Sekarang

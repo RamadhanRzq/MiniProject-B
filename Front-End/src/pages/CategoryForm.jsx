@@ -61,17 +61,17 @@ function CategoryForm({ setIsFormModalVisible, mutate }) {
     <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex items-center justify-center overflow-auto">
       <div className="bg-white px-8 py-4 rounded-md max-w-full">
         <div className="w-[500px]">
-          <h2>New Category</h2>
+          <h2>Kategori Baru</h2>
           <hr />
           <form
             className="flex flex-col gap-4 mt-4"
             onSubmit={handleSubmit(onSubmitForm)}
           >
             <div>
-              <label htmlFor="name">Category Name</label>
+              <label htmlFor="name">Nama Kategori</label>
               <input
-                placeholder="Category Name"
-                className="w-full rounded-lg border-[1px] border-gray-200 p-4 pe-12 text-sm focus:outline-sky-200"
+                placeholder="Nama Kategori"
+                className="w-full rounded-lg border-2 border-gray-200 py-2 pl-2 text-base"
                 {...register("name")}
                 id="name"
               />
@@ -79,10 +79,10 @@ function CategoryForm({ setIsFormModalVisible, mutate }) {
             </div>
 
             <button
-              className="rounded-lg bg-sky-400 p-2 text-white self-center w-full border border-white"
+              className="rounded-lg bg-muda p-2 text-white self-center w-full border-none hover:bg-hijau"
               type="submit"
             >
-              Add New Category
+              Tambah Kategori
             </button>
           </form>
 
@@ -92,7 +92,7 @@ function CategoryForm({ setIsFormModalVisible, mutate }) {
               to="/categories"
               className="text-sky-600 hover:underline cursor-pointer"
             >
-              Back to Categories List
+              Kembali ke Daftar Kategori
             </Link>
           </div>
         </div>
