@@ -149,7 +149,7 @@ function ProductList() {
                               <img
                                 src={product.image}
                                 alt={`Product ${product.id} Image`}
-                                className="w-28 h-auto object-center"
+                                className="w-28 h-26 object-cover"
                               />
                             </div>
                           </td>
