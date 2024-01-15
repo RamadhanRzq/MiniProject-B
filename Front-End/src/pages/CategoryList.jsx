@@ -4,8 +4,28 @@ import { FaPlusCircle } from "react-icons/fa";
 import useSWR from "swr";
 import CategoryForm from "./CategoryForm";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import PromptDelete from "../components/PromptDelete";
 
 function CategoryList() {
+  const [isDeletePromptVisible, setIsDeletePromptVisible] = useState(false);
+  const [deleteCategoryId, setDeleteCategoryId] = useState(null);
+
+  const handleDeleteModal = (id) => {
+    setDeleteCategoryId(id);
+    setIsDeletePromptVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteCategoryId) {
+      handleDelete(deleteCategoryId);
+      setIsDeletePromptVisible(false);
+    }
+  };
+
+  const closePrompt = () => {
+    setIsDeletePromptVisible(false);
+  };
+
   const fetchCategories = async (url) => {
     try {
       const response = await axios.get(url);
@@ -70,7 +90,7 @@ function CategoryList() {
                         <td className="py-2">
                           <button
                             className="rounded-lg border border-white p-2 text-red-700 hover:bg-gray-300"
-                            onClick={() => handleDelete(category.id)}
+                            onClick={() => handleDeleteModal(category.id)}
                           >
                             <RiDeleteBin6Line />
                           </button>
@@ -88,6 +108,17 @@ function CategoryList() {
         <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-8 rounded-md w-[400px] max-w-full">
             <CategoryForm setShowForm={setShowForm} mutateCategories={mutate} />
+          </div>
+        </div>
+      )}
+      {isDeletePromptVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-8 rounded-md shadow-md">
+            <PromptDelete
+              title="Apakah anda yakin akan menghapus kategori ini?"
+              onCancel={closePrompt}
+              onConfirm={handleConfirmDelete}
+            />
           </div>
         </div>
       )}

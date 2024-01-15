@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -10,14 +11,17 @@ import useSWR from "swr";
 import { toRupiah } from "../utils/formatter";
 import ProductForm from "./ProductForm";
 import Update from "./Update";
+import PromptDelete from "../components/PromptDelete";
 
 function ProductList() {
   const [filterName, setFilterName] = useState("");
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
   const [originalProducts, setOriginalProducts] = useState([]);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+  const [isDeletePromptVisible, setIsDeletePromptVisible] = useState(false);
+  const [deleteProductId, setDeleteProductId] = useState(null);
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     axios
       .delete(`http://localhost:8080/api/products/${id}`)
       .then(() => {
@@ -26,6 +30,22 @@ function ProductList() {
       .catch((error) => {
         console.log("Gagal menghapus produk:", error);
       });
+  };
+
+  const handleDeleteModal = (id) => {
+    setDeleteProductId(id);
+    setIsDeletePromptVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteProductId) {
+      handleDelete(deleteProductId);
+      setIsDeletePromptVisible(false);
+    }
+  };
+
+  const closePrompt = () => {
+    setIsDeletePromptVisible(false);
   };
 
   const fetchAllProducts = async () => {
@@ -162,7 +182,7 @@ function ProductList() {
                             </Link>
                             <button
                               className="rounded-lg border border-white p-2 text-red-700 hover:bg-gray-300"
-                              onClick={() => handleDelete(product.id)}
+                              onClick={() => handleDeleteModal(product.id)}
                             >
                               <RiDeleteBin6Line />
                             </button>
@@ -190,6 +210,17 @@ function ProductList() {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
           <div className="bg-white p-8 rounded-md shadow-md">
             <Update setIsFormModalVisible={setIsUpdateModalVisible} />
+          </div>
+        </div>
+      )}
+      {isDeletePromptVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-8 rounded-md shadow-md">
+            <PromptDelete
+              title="Apakah anda yakin akan menghapus data produk ini?"
+              onCancel={closePrompt}
+              onConfirm={handleConfirmDelete}
+            />
           </div>
         </div>
       )}
