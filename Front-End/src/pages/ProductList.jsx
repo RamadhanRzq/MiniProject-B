@@ -108,7 +108,7 @@ function ProductList() {
   }, [filterName, mutate, data, originalProducts]);
 
   return (
-    <div className="container mt-5">
+    <div className="px-24 mt-10">
       {isLoading ? (
         <div className="flex items-center justify-center h-screen">
           <BeatLoader color="#38BDF8" />

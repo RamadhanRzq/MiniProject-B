@@ -243,11 +243,10 @@ function ProductCard() {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {data &&
-                data.map(({ id, name, description, image, price }) => (
+                data.map(({ id, name, image, price }) => (
                   <Card
                     key={id}
                     name={name}
-                    description={description}
                     price={price}
                     image={image}
                     onClick={() => onClickAddToCart({ id, name, image, price })}

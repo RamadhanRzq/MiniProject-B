@@ -55,7 +55,7 @@ function CategoryList() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="px-24 mt-10">
       <div className="grid grid-cols-1 items-center text-center justify-center">
         <div className="col-span-1">
           <div className="bg-white shadow-md p-6 rounded-md">

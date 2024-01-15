@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as yup from "yup";
 import PopUp from "./PopUp";
 
@@ -14,6 +14,7 @@ function Update({ setIsFormModalVisible }) {
   const [file, setFile] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
   const [isPopUpSuccessOpen, setPopUpSuccessOpen] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
     fetch("http://localhost:8080/api/category")
@@ -50,9 +51,6 @@ function Update({ setIsFormModalVisible }) {
     stock: yup.string().required("Stok Produk Wajib Diisi"),
     categoryId: yup.string().required("ID Kategori Produk Wajib Diisi"),
   });
-
-  const { id } = useParams();
-  const navigate = useNavigate();
 
   const {
     handleSubmit,

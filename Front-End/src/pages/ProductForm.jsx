@@ -123,7 +123,6 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
         <form
           className="flex flex-col gap-4 mt-4"
           onSubmit={handleSubmit(onSubmitForm)}
-          encType="multipart/form-data"
         >
           {/* Nama Produk */}
           <div className="sm:col-span-4">
@@ -222,17 +221,6 @@ function ProductForm({ setIsFormModalVisible, mutate }) {
                   </option>
                 ))}
               </select>
-              {selectedCategory && (
-                <p>
-                  Kategori yang Dipilih:{" "}
-                  {
-                    categories.find(
-                      (category) =>
-                        category.id === parseInt(selectedCategory, 10)
-                    ).name
-                  }
-                </p>
-              )}
             </div>
           </div>
 
