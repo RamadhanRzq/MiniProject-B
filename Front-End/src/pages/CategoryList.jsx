@@ -16,7 +16,7 @@ function CategoryList() {
     }
   };
 
-  const { data, error, mutate } = useSWR(
+  const { data, mutate } = useSWR(
     "http://localhost:8080/api/category",
     fetchCategories
   );
@@ -26,7 +26,7 @@ function CategoryList() {
   const handleDelete = (id) => {
     axios
       .delete(`http://localhost:8080/api/category/${id}`)
-      .then((res) => {
+      .then(() => {
         mutate();
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ function CategoryList() {
                 </thead>
                 <tbody>
                   {data &&
-                    data.map((category, index) => (
+                    data.map((category) => (
                       <tr
                         key={category.id}
                         className="border-b border-gray-200 hover:bg-gray-100"

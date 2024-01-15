@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";

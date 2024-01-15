@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { FaPlusCircle } from "react-icons/fa";
 import { LuPencilLine } from "react-icons/lu";
@@ -20,7 +20,7 @@ function ProductList() {
   const handleDelete = (id) => {
     axios
       .delete(`http://localhost:8080/api/products/${id}`)
-      .then((res) => {
+      .then(() => {
         mutate();
       })
       .catch((error) => {
@@ -57,15 +57,12 @@ function ProductList() {
     const data = await axios
       .get(url, {
         headers: { "Cache-Control": "no-cache" },
-        params: {
-          search: filterName,
-        },
       })
       .then((res) => res.data.data);
     return data;
   };
 
-  const { data, isLoading, error, mutate } = useSWR(
+  const { data, isLoading, mutate } = useSWR(
     "http://localhost:8080/api/products",
     () => fetchData("http://localhost:8080/api/products"),
     {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function PopUp({ onCancel, title }) {
   return (
     <div className="flex min-h-screen justify-center items-center popupstyle ">

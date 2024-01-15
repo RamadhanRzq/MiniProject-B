@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { BeatLoader } from "react-spinners";
@@ -40,11 +40,6 @@ function ProductCard() {
           `http://localhost:8080/api/products/filter?category=${categoryId}`,
           {
             headers: { "Cache-Control": "no-cache" },
-            params: {
-              sortByPrice: sortPrice,
-              sortByName: sortName,
-              search: filterName,
-            },
           }
         );
         const data = response.data;
@@ -113,11 +108,6 @@ function ProductCard() {
     const data = await axios
       .get(url, {
         headers: { "Cache-Control": "no-cache" },
-        params: {
-          sortByPrice: sortPrice,
-          sortByName: sortName,
-          search: filterName,
-        },
       })
       .then((res) => res.data.data);
     return data;
@@ -253,20 +243,16 @@ function ProductCard() {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {data &&
-                data.map(
-                  ({ id, name, description, image, price, category }) => (
-                    <Card
-                      key={id}
-                      name={name}
-                      description={description}
-                      price={price}
-                      image={image}
-                      onClick={() =>
-                        onClickAddToCart({ id, name, image, price })
-                      }
-                    />
-                  )
-                )}
+                data.map(({ id, name, description, image, price }) => (
+                  <Card
+                    key={id}
+                    name={name}
+                    description={description}
+                    price={price}
+                    image={image}
+                    onClick={() => onClickAddToCart({ id, name, image, price })}
+                  />
+                ))}
             </div>
           )}
         </div>
