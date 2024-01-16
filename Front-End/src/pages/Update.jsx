@@ -4,11 +4,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import PopUp from "./PopUp";
 
 function Update({ setIsFormModalVisible }) {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState(null);
@@ -41,7 +42,7 @@ function Update({ setIsFormModalVisible }) {
 
   const closePopUp = () => {
     setPopUpSuccessOpen(false);
-    setIsFormModalVisible(false);
+    navigate("/list");
   };
 
   const schema = yup.object().shape({
@@ -104,6 +105,7 @@ function Update({ setIsFormModalVisible }) {
         setValue("stock", productData.stock);
         setValue("categoryId", productData.categoryId);
         setImgUrl(productData.image);
+        setSelectedCategory(productData.categoryId);
       } catch (error) {
         console.error(error);
       }
@@ -244,17 +246,6 @@ function Update({ setIsFormModalVisible }) {
                     </option>
                   ))}
                 </select>
-                {selectedCategory && (
-                  <p>
-                    Kategori yang Dipilih:{" "}
-                    {
-                      categories.find(
-                        (category) =>
-                          category.id === parseInt(selectedCategory, 10)
-                      ).name
-                    }
-                  </p>
-                )}
               </div>
             </div>
 
