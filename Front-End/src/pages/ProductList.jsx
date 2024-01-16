@@ -16,7 +16,6 @@ import PromptDelete from "../components/PromptDelete";
 function ProductList() {
   const [filterName, setFilterName] = useState("");
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
-  const [originalProducts, setOriginalProducts] = useState([]);
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
   const [isDeletePromptVisible, setIsDeletePromptVisible] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
@@ -55,7 +54,6 @@ function ProductList() {
       );
 
       if (allProductsData) {
-        setOriginalProducts(allProductsData);
         mutate(allProductsData, false);
       } else {
         console.error("Data tidak ditemukan.");
@@ -88,7 +86,6 @@ function ProductList() {
     {
       onSuccess: (data) => {
         const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
-        setOriginalProducts(sortedData);
         return sortedData;
       },
     }
@@ -105,7 +102,7 @@ function ProductList() {
       }
       mutate(sortedProducts, false);
     }
-  }, [filterName, mutate, data, originalProducts]);
+  }, [filterName, mutate, data]);
 
   return (
     <div className="px-24 mt-10">

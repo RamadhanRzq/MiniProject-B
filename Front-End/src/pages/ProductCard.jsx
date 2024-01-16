@@ -12,7 +12,6 @@ function ProductCard() {
   const [sortPrice, setSortPrice] = useState("");
   const [sortName, setSortName] = useState("");
   const [filterName, setFilterName] = useState("");
-  const [originalProducts, setOriginalProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -46,7 +45,6 @@ function ProductCard() {
 
         if (data) {
           const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
-          setOriginalProducts(sortedData);
           mutate(sortedData, false);
         } else {
           console.error("Data is undefined or null.");
@@ -66,7 +64,6 @@ function ProductCard() {
       );
 
       if (allProductsData) {
-        setOriginalProducts(allProductsData);
         mutate(allProductsData, false);
       } else {
         console.error("Data is undefined or null.");
@@ -86,12 +83,10 @@ function ProductCard() {
 
   const handleSortByHighestPrice = () => {
     setSortPrice("highest");
-    setSortName("");
   };
 
   const handleSortByLowestPrice = () => {
     setSortPrice("lowest");
-    setSortName("");
   };
 
   const handleSortByNameAscending = () => {
@@ -119,7 +114,6 @@ function ProductCard() {
     {
       onSuccess: (data) => {
         const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
-        setOriginalProducts(sortedData);
         return sortedData;
       },
     }
@@ -148,7 +142,7 @@ function ProductCard() {
       }
       mutate(sortedProducts, false);
     }
-  }, [filterName, sortPrice, sortName, mutate, data, originalProducts]);
+  }, [filterName, sortPrice, sortName, mutate, data]);
 
   const onClickAddToCart = (product) => {
     dispatch(addToCart(product));
